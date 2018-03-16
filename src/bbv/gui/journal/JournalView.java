@@ -22,13 +22,13 @@ import javax.swing.border.EtchedBorder;
 
 import bbv.basics.Betreuer;
 import bbv.basics.JournalEntry;
-import database.BetreuerDB;
+import database.ZeltlagerDB;
 
 public class JournalView extends JPanel {
 
   Long betreuerID;
   Betreuer betreuer;
-  BetreuerDB betreuerDB = BetreuerDB.getInstance();
+  ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
   JPanel entryPanel = new JPanel();
   private List<AbstractJournalPanel> journalPanelList = new ArrayList<AbstractJournalPanel>();
 

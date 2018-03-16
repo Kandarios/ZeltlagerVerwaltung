@@ -9,23 +9,23 @@ import javax.persistence.Query;
 
 import bbv.basics.Betreuer;
 import bbv.basics.JournalEntry;
+import bbv.basics.Teilnehmer;
 
 /**
  *
  * @author sqlitetutorial.net
  */
-public class BetreuerDB {
+public class ZeltlagerDB {
 
   private EntityManager entityManager = EntityManagerUtil.getEntityManager();
-  private static BetreuerDB instance = null;
+  private static ZeltlagerDB instance = null;
 
-  private BetreuerDB() {
-
+  private ZeltlagerDB() {
   }
 
-  public static BetreuerDB getInstance() {
+  public static ZeltlagerDB getInstance() {
     if(instance == null) {
-      instance = new BetreuerDB();
+      instance = new ZeltlagerDB();
     } 
     return instance;
   }
@@ -91,10 +91,73 @@ public class BetreuerDB {
   }
   
   
+  public boolean saveTeilnehmer(Teilnehmer  teilnehmer) {
+    try {
+      entityManager.getTransaction().begin();
+      entityManager.merge(teilnehmer);
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      entityManager.getTransaction().rollback();
+    }
+    return true;
+  }
+
+  public List<Teilnehmer> getTeilnehmerOfBetreuer(Long betreuerID) {
+    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Teilnehmer where BETREUERID = :id ");
+      query.setParameter("id", betreuerID);
+      teilnehmerList = query.getResultList();
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      entityManager.getTransaction().rollback();
+    }
+    return teilnehmerList;
+  }
+  
+  public List<Teilnehmer> getTeilnehmer() {
+    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Teilnehmer");
+      teilnehmerList = query.getResultList();
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      entityManager.getTransaction().rollback();
+    }
+    return teilnehmerList;
+  }
+
+  public void updateTeilnehmer(Long teilnehmerID, String name, String notiz, Long betreuerID) {
+    try {
+      entityManager.getTransaction().begin();
+      Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
+      teilnehmer.setName(name);
+      teilnehmer.setNotiz(notiz);
+      teilnehmer.setBetreuerID(betreuerID);
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
+
+  public void deleteJournalEntry(Long entryId) {
+    try {
+      entityManager.getTransaction().begin();
+      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryId);
+      entityManager.remove(entry);
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
+  
   public boolean saveJournalEntry(JournalEntry entry) {
     try {
-      System.out.println("In Saving the ID is " + entry.getBetreuerID());
-
       entityManager.getTransaction().begin();
       entityManager.merge(entry);
       entityManager.getTransaction().commit();
@@ -105,11 +168,13 @@ public class BetreuerDB {
     return true;
   }
 
-  public List<JournalEntry> getJournalEntryList() {
+  public List<JournalEntry> getJournalEntryList(Long betreuerID) {
     List<JournalEntry> journalEntryList = new ArrayList<JournalEntry>();
     try {
       entityManager.getTransaction().begin();
-      journalEntryList = entityManager.createQuery("from JournalEntry").getResultList();
+      Query query = entityManager.createQuery("from JournalEntry where BETREUERID = :id ");
+      query.setParameter("id", betreuerID);
+      journalEntryList = query.getResultList();
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
@@ -117,12 +182,45 @@ public class BetreuerDB {
     }
     return journalEntryList;
   }
+
+  public void updateJournalEntry(Long entryID, String text, String date) {
+    try {
+      entityManager.getTransaction().begin();
+      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryID);
+      entry.setText(text);
+      entry.setDate(date);
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
+
+  public void deleteJournalEntry(Long entryId) {
+    try {
+      entityManager.getTransaction().begin();
+      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryId);
+      entityManager.remove(entry);
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
   
+  public boolean saveJournalEntry(JournalEntry entry) {
+    try {
+      entityManager.getTransaction().begin();
+      entityManager.merge(entry);
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      entityManager.getTransaction().rollback();
+    }
+    return true;
+  }
+
   public List<JournalEntry> getJournalEntryList(Long betreuerID) {
     List<JournalEntry> journalEntryList = new ArrayList<JournalEntry>();
     try {
-      System.out.println("Query for entries with ID:  " + betreuerID);
-
       entityManager.getTransaction().begin();
       Query query = entityManager.createQuery("from JournalEntry where BETREUERID = :id ");
       query.setParameter("id", betreuerID);

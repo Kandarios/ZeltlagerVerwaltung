@@ -1,5 +1,6 @@
 package bbv.gui.betreuer;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -20,15 +21,15 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import bbv.basics.Betreuer;
-import helper.ImageScaler;
+import helper.ImageUtilities;
 
 
 
 
 public class BetreuerDialog extends JDialog {
-  
+
   private JFrame parent;
-  
+
   private JTextField textField_name;
   private JTextField textField_bild;
   private JTextField textField_zelt;
@@ -36,17 +37,17 @@ public class BetreuerDialog extends JDialog {
   private JButton button_add;
   private JButton button_cancel;
   private JButton button_loadImage;
-  
+
   private Dimension pictureDimension = new Dimension(290, 259); 
   private List<ActionListener> listeners = new ArrayList<ActionListener>();
-  
+
 
   public BetreuerDialog(JFrame frame) {
     this.parent = frame;
     setupGUI(false); 
     registerListeners();
   }
-  
+
   public BetreuerDialog(JFrame frame, Betreuer selectedBetreuer) {
     this.parent = frame;
     setupGUI(true); 
@@ -61,17 +62,17 @@ public class BetreuerDialog extends JDialog {
     setResizable(false);
     setBounds(100, 100, 750, 500);
     setVisible(true);
-    
+
     JLabel lblName = new JLabel("Name:");
     JLabel lblBild = new JLabel("Bild:");
     JLabel lblZelt = new JLabel("Zelt:");
-    
+
     if(existingBetreuer) {
       button_add = new JButton("Speichern");
     } else {
       button_add = new JButton("Hinzufügen");
     }
-    
+
     button_cancel = new JButton("Abbrechen");
     button_loadImage = new JButton("Laden");
 
@@ -83,77 +84,77 @@ public class BetreuerDialog extends JDialog {
 
     textField_bild = new JTextField();
     textField_bild.setColumns(10);
-    
+
     textField_zelt = new JTextField();
     textField_zelt.setColumns(10);
-    
+
     GroupLayout groupLayout = new GroupLayout(getContentPane());
     groupLayout.setHorizontalGroup(
-      groupLayout.createParallelGroup(Alignment.TRAILING)
+        groupLayout.createParallelGroup(Alignment.TRAILING)
         .addGroup(groupLayout.createSequentialGroup()
-          .addGap(0)
-          .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-            .addGroup(groupLayout.createSequentialGroup()
-              .addComponent(button_add)
-              .addPreferredGap(ComponentPlacement.UNRELATED)
-              .addComponent(button_cancel)
-              .addGap(23))
-            .addGroup(groupLayout.createSequentialGroup()
-              .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                .addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-                  .addGap(43)
-                  .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                    .addGroup(groupLayout.createSequentialGroup()
-                      .addComponent(lblBild)
-                      .addGap(31))
-                    .addGroup(groupLayout.createSequentialGroup()
-                      .addComponent(lblName)
-                      .addGap(18)))
-                  .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                    .addGroup(groupLayout.createSequentialGroup()
-                      .addComponent(textField_bild, GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
-                      .addPreferredGap(ComponentPlacement.UNRELATED)
-                      .addComponent(button_loadImage)
-                      .addGap(6))
-                    .addComponent(textField_name, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)))
+            .addGap(0)
+            .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
                 .addGroup(groupLayout.createSequentialGroup()
-                  .addGap(419)
-                  .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)))
-              .addGap(27))))
+                    .addComponent(button_add)
+                    .addPreferredGap(ComponentPlacement.UNRELATED)
+                    .addComponent(button_cancel)
+                    .addGap(23))
+                .addGroup(groupLayout.createSequentialGroup()
+                    .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+                        .addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+                            .addGap(43)
+                            .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+                                .addGroup(groupLayout.createSequentialGroup()
+                                    .addComponent(lblBild)
+                                    .addGap(31))
+                                .addGroup(groupLayout.createSequentialGroup()
+                                    .addComponent(lblName)
+                                    .addGap(18)))
+                            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+                                .addGroup(groupLayout.createSequentialGroup()
+                                    .addComponent(textField_bild, GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                                    .addPreferredGap(ComponentPlacement.UNRELATED)
+                                    .addComponent(button_loadImage)
+                                    .addGap(6))
+                                .addComponent(textField_name, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)))
+                        .addGroup(groupLayout.createSequentialGroup()
+                            .addGap(419)
+                            .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)))
+                    .addGap(27))))
         .addGroup(groupLayout.createSequentialGroup()
-          .addContainerGap(43, Short.MAX_VALUE)
-          .addComponent(lblZelt, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-          .addGap(18)
-          .addComponent(textField_zelt, GroupLayout.PREFERRED_SIZE, 618, GroupLayout.PREFERRED_SIZE)
-          .addGap(27))
-    );
+            .addContainerGap(43, Short.MAX_VALUE)
+            .addComponent(lblZelt, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+            .addGap(18)
+            .addComponent(textField_zelt, GroupLayout.PREFERRED_SIZE, 618, GroupLayout.PREFERRED_SIZE)
+            .addGap(27))
+        );
     groupLayout.setVerticalGroup(
-      groupLayout.createParallelGroup(Alignment.TRAILING)
+        groupLayout.createParallelGroup(Alignment.TRAILING)
         .addGroup(groupLayout.createSequentialGroup()
-          .addGap(24)
-          .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-          .addPreferredGap(ComponentPlacement.RELATED)
-          .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-            .addComponent(textField_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-            .addComponent(lblName))
-          .addPreferredGap(ComponentPlacement.RELATED)
-          .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-            .addComponent(lblZelt)
-            .addComponent(textField_zelt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-          .addGap(9)
-          .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-            .addComponent(lblBild)
-            .addComponent(textField_bild, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-            .addComponent(button_loadImage))
-          .addGap(28)
-          .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-            .addComponent(button_cancel)
-            .addComponent(button_add))
-          .addGap(14))
-    );
+            .addGap(24)
+            .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+            .addPreferredGap(ComponentPlacement.RELATED)
+            .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+                .addComponent(textField_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblName))
+            .addPreferredGap(ComponentPlacement.RELATED)
+            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+                .addComponent(lblZelt)
+                .addComponent(textField_zelt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addGap(9)
+            .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+                .addComponent(lblBild)
+                .addComponent(textField_bild, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(button_loadImage))
+            .addGap(28)
+            .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+                .addComponent(button_cancel)
+                .addComponent(button_add))
+            .addGap(14))
+        );
     getContentPane().setLayout(groupLayout);
   }
-  
+
   private void registerListeners() {
     button_add.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -168,13 +169,13 @@ public class BetreuerDialog extends JDialog {
         }
       }
     });
-    
+
     button_cancel.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         dispose();
       }
     });
-    
+
     button_loadImage.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         JFileChooser c = new JFileChooser();
@@ -185,18 +186,21 @@ public class BetreuerDialog extends JDialog {
         }
       }
     });
-    
+
   }
-  
+
   private void showImage(String path) {
-    ImageIcon icon = new ImageIcon(path);
-    if(icon.getIconHeight() == -1) {
-    } else {
-      Dimension scaledDimension = ImageScaler.getScaledDimension(new Dimension(icon.getIconWidth(), icon.getIconHeight()),  pictureDimension);
+    if(ImageUtilities.imageExists(path)) {
+      ImageIcon icon = new ImageIcon(path);
+      Dimension scaledDimension = ImageUtilities.getScaledDimension(new Dimension(icon.getIconWidth(), icon.getIconHeight()),  pictureDimension);
       lblPreview.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int) scaledDimension.getWidth(), (int) scaledDimension.getHeight(), Image.SCALE_DEFAULT)));
+      textField_bild.setForeground(Color.black);
+    } else {
+      lblPreview.setIcon(new ImageIcon(new ImageIcon("./data/default_person.png").getImage().getScaledInstance(290, 259, Image.SCALE_DEFAULT)));
+      textField_bild.setForeground(Color.red);
     }
   }
-  
+
   public Betreuer getBetreuer() {
     return new Betreuer(textField_name.getText(), textField_zelt.getText(), textField_bild.getText());
   }
@@ -204,19 +208,19 @@ public class BetreuerDialog extends JDialog {
   public String getBetreuerName() {
     return textField_name.getText();
   }
-  
+
   public String getBetreuerZelt() {
     return textField_zelt.getText();
   }
-  
+
   public String getBetreuerPicture() {
     return  textField_bild.getText();
   }
-  
+
   public void addActionListener(ActionListener listener) {
     listeners.add(listener);
   }
-  
+
   private void informListeners() {
     for(ActionListener listener : listeners) {
       ActionEvent event = new ActionEvent(this, 0, "Aproved");

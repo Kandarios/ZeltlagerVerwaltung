@@ -15,11 +15,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import bbv.basics.Betreuer;
-import database.BetreuerDB;
+import database.ZeltlagerDB;
 
 public class BetreuerView extends JPanel {
   private List<AbstractBetreuerPanel> betreuerPanelList = new ArrayList<AbstractBetreuerPanel>();
-  private BetreuerDB betreuerDB = BetreuerDB.getInstance();
+  private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
   private List<ActionListener> listeners = new ArrayList<ActionListener>();
   private JFrame frame;
   private Long currentBetreuerID;

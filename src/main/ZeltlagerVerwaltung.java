@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 
 import bbv.gui.MainWindow;
 
-public class BetreuerVerwaltung {
+public class ZeltlagerVerwaltung {
 
 
 

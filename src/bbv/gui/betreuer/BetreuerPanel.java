@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
 import bbv.basics.Betreuer;
-import helper.ImageScaler;
+import helper.ImageUtilities;
 
 public class BetreuerPanel extends AbstractBetreuerPanel {
 
@@ -19,11 +19,11 @@ public class BetreuerPanel extends AbstractBetreuerPanel {
     super();
     this.betreuer = betreuer;
     lblNewLabel.setText(betreuer.getName());
-    if (betreuer.getPicture().isEmpty()) {
+    if (betreuer.getPicture().isEmpty() || !ImageUtilities.imageExists(betreuer.getPicture())) {
       btnNewButton.setIcon(new ImageIcon(new ImageIcon("./data/default_person.png").getImage().getScaledInstance(220, 220, Image.SCALE_DEFAULT)));
     } else {
       ImageIcon icon = new ImageIcon(betreuer.getPicture());
-      Dimension scaledDimension = ImageScaler.getScaledDimension(new Dimension(icon.getIconWidth(), icon.getIconHeight()),  new Dimension(220, 220));
+      Dimension scaledDimension = ImageUtilities.getScaledDimension(new Dimension(icon.getIconWidth(), icon.getIconHeight()),  new Dimension(220, 220));
       btnNewButton.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int) scaledDimension.getWidth(), (int) scaledDimension.getHeight(), Image.SCALE_DEFAULT)));
     }
     add(btnNewButton, BorderLayout.CENTER);
