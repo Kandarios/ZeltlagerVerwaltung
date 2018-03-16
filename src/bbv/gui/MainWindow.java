@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 import bbv.gui.betreuer.BetreuerDialog;
 import bbv.gui.betreuer.BetreuerView;
@@ -75,8 +76,13 @@ public class MainWindow {
     northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
 
     scrollPane = new JScrollPane();
-    frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+//    frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
     scrollPane.setViewportView(northOnlyPanel);
+    
+    JTabbedPane mainTabs = new JTabbedPane();
+    frame.getContentPane().add(mainTabs, BorderLayout.CENTER);
+    mainTabs.addTab("Betreuer", scrollPane);
+    
     initializeMenuBar();
   }
 
@@ -118,13 +124,13 @@ public class MainWindow {
 
   private void updateGUI() {
     northOnlyPanel.revalidate();
-    scrollPane.revalidate();
     betreuerView.revalidate();
     journalView.revalidate();
+    scrollPane.revalidate();
     northOnlyPanel.repaint();
-    scrollPane.repaint();
     betreuerView.repaint();
     journalView.repaint();
+    scrollPane.repaint();
   }
 
   private void newJournalView(Long betreuerID) {
