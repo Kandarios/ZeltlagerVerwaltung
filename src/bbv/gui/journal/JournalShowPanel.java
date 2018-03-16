@@ -67,7 +67,7 @@ public class JournalShowPanel extends AbstractJournalPanel {
     panel_3.add(horizontalStrut_1);
   }
 
-  Long getEntryID() {
-    return entry.getEntryId();
+  JournalEntry getEntry() {
+    return entry;
   }
 }

@@ -31,7 +31,7 @@ public class BetreuerView extends JPanel {
   }
   
   public void newBetreuer(Betreuer betreuer) {
-    betreuerDB.saveBetreuer(betreuer);
+    betreuerDB.save(betreuer);
     listExistingBetreuer();
   }
 
@@ -118,7 +118,7 @@ public class BetreuerView extends JPanel {
           
           @Override
           public void actionPerformed(ActionEvent e) {
-            betreuerDB.deleteBetreuer(betreuerPanel.getBetreuer().getBetrteuerId());
+            betreuerDB.delete(betreuerPanel.getBetreuer());
             listExistingBetreuer();
           }
         });

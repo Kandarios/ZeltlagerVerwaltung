@@ -84,12 +84,14 @@ public class JournalView extends JPanel {
   }
 
   private void listExistingJounralEntries() {
+    
     journalPanelList.clear();
     JournalEditPanel editPanel = new JournalEditPanel(betreuerID);
-    System.out.println("In JournalView the ID is " + betreuerID);
     addListeners(editPanel);
     journalPanelList.add(editPanel);
-    List<JournalEntry> list = betreuerDB.getJournalEntryList(betreuerID);
+    /// TODO: Do this with refresh instead?
+    betreuerDB.refresh(betreuer);
+    List<JournalEntry> list = betreuer.getJournalEntries();
     Collections.sort(list, new JournalComparator().reversed());
     for(JournalEntry entry : list)  {
       JournalShowPanel showPanel = new JournalShowPanel(entry);
@@ -116,7 +118,7 @@ public class JournalView extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          betreuerDB.saveJournalEntry(editPanel.getEntry());
+          betreuerDB.save(editPanel.getEntry());
           listExistingJounralEntries();
         }
       });
@@ -128,7 +130,7 @@ public class JournalView extends JPanel {
         public void actionPerformed(ActionEvent e) {
           int dialogResult = JOptionPane.showConfirmDialog (null, "Diesen Eintrag sicher löschen?");
           if(dialogResult == JOptionPane.YES_OPTION){
-            betreuerDB.deleteJournalEntry(showPanel.getEntryID());;
+            betreuerDB.delete(showPanel.getEntry());
             listExistingJounralEntries();
           }
         }
