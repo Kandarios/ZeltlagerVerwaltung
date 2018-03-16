@@ -1,0 +1,29 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+	<persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>bbv.basics.Betreuer</class>
+		<class>bbv.basics.JournalEntry</class>
+		<class>bbv.basics.Teilnehmer</class>
+		<class>bbv.basics.Zelt</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.connection.driver_class" value="org.h2.Driver" />
+			<property name="hibernate.connection.username" value="" />
+			<property name="hibernate.connection.password" value="" />
+			<property name="hibernate.connection.user" value="" />
+			<property name="hibernate.connection.url" value="jdbc:h2:./data/betreuerDB" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.connection.autocommit" value="true" />
+
+
+			<!-- create https://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+	</persistence-unit>
+</persistence>
