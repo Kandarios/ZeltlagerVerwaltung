@@ -11,22 +11,16 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import bbv.gui.betreuer.BetreuerDialog;
-import bbv.gui.betreuer.BetreuerView;
-import bbv.gui.journal.JournalView;
+import bbv.gui.betreuer.BetreuerTab;
 
 public class MainWindow {
 
   private JFrame frame;
-  private JScrollPane scrollPane;
-  private JPanel northOnlyPanel;
-  private BetreuerView betreuerView;
-  private JournalView journalView;
-  private boolean betreuerViewDisplayed;
+  private BetreuerTab betreuerTab;
+
 
 
   /**
@@ -45,43 +39,14 @@ public class MainWindow {
     frame.setBounds(100, 100, 1200, 900);
     frame.setMinimumSize(new Dimension(900, 500));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    betreuerViewDisplayed = true;
+   
 
-    journalView = new JournalView();
-
-
-
-    betreuerView = new BetreuerView(frame);
-    betreuerView.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()){
-
-        case "showJournal":
-          northOnlyPanel.removeAll();
-          if(betreuerViewDisplayed) {
-            newJournalView(betreuerView.getCurrentBetreuerID());
-          } else {
-            northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
-          }
-          betreuerViewDisplayed = !betreuerViewDisplayed;
-        case "update":
-        default:
-          updateGUI();
-        }
-      }
-    });
-    northOnlyPanel = new JPanel();
-    northOnlyPanel.setLayout(new BorderLayout());
-    northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
-
-    scrollPane = new JScrollPane();
+    betreuerTab = new BetreuerTab(frame);
 //    frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-    scrollPane.setViewportView(northOnlyPanel);
     
     JTabbedPane mainTabs = new JTabbedPane();
     frame.getContentPane().add(mainTabs, BorderLayout.CENTER);
-    mainTabs.addTab("Betreuer", scrollPane);
+    mainTabs.addTab("Betreuer", betreuerTab);
     
     initializeMenuBar();
   }
@@ -112,7 +77,7 @@ public class MainWindow {
         {
           public void actionPerformed(ActionEvent arg0)
           {
-            betreuerView.newBetreuer(dialog.getBetreuer());
+            betreuerTab.betreuerFromMenu(dialog.getBetreuer());
           }
         });
       }
@@ -122,35 +87,5 @@ public class MainWindow {
     mnFile.add(mntmExit);
   }
 
-  private void updateGUI() {
-    northOnlyPanel.revalidate();
-    betreuerView.revalidate();
-    journalView.revalidate();
-    scrollPane.revalidate();
-    northOnlyPanel.repaint();
-    betreuerView.repaint();
-    journalView.repaint();
-    scrollPane.repaint();
-  }
-
-  private void newJournalView(Long betreuerID) {
-    journalView = new JournalView(betreuerID);
-    journalView.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()){
-        case "return":
-          northOnlyPanel.removeAll();
-          northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
-          betreuerViewDisplayed = !betreuerViewDisplayed;
-          updateGUI();
-          break;
-        case "update":
-          updateGUI();
-        }
-      }
-    });
-    northOnlyPanel.add(journalView, BorderLayout.NORTH);
-  }
+ 
 }
