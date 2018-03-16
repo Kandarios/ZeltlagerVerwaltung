@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import bbv.basics.Betreuer;
 import bbv.basics.JournalEntry;
 import bbv.basics.Teilnehmer;
+import bbv.basics.Zelt;
 
 /**
  *
@@ -145,21 +146,33 @@ public class ZeltlagerDB {
     }
   }
 
-  public void deleteJournalEntry(Long entryId) {
+  public void deleteTeilnehmer(Long teilnehmerId) {
     try {
       entityManager.getTransaction().begin();
-      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryId);
-      entityManager.remove(entry);
+      Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerId);
+      entityManager.remove(teilnehmer);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
     }
   }
   
-  public boolean saveJournalEntry(JournalEntry entry) {
+  public Teilnehmer getTeilnehmer(Long teilnehmerID) {
+    Teilnehmer teilnehmer = new Teilnehmer();
+     try {
+       entityManager.getTransaction().begin();
+       teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
+       entityManager.getTransaction().commit();
+     } catch (Exception e) {
+       entityManager.getTransaction().rollback();
+     }
+     return teilnehmer;
+   }
+  
+  public boolean saveZelt(Zelt zelt) {
     try {
       entityManager.getTransaction().begin();
-      entityManager.merge(entry);
+      entityManager.merge(zelt);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
@@ -168,38 +181,49 @@ public class ZeltlagerDB {
     return true;
   }
 
-  public List<JournalEntry> getJournalEntryList(Long betreuerID) {
-    List<JournalEntry> journalEntryList = new ArrayList<JournalEntry>();
+  public List<Zelt> getZeltList() {
+    List<Zelt> zeltList = new ArrayList<Zelt>();
     try {
       entityManager.getTransaction().begin();
-      Query query = entityManager.createQuery("from JournalEntry where BETREUERID = :id ");
-      query.setParameter("id", betreuerID);
-      journalEntryList = query.getResultList();
+      Query query = entityManager.createQuery("from Zelt");
+      zeltList = query.getResultList();
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
       entityManager.getTransaction().rollback();
     }
-    return journalEntryList;
+    return zeltList;
   }
+  
+  public Zelt getZelt(Long zeltID) {
+    Zelt zelt = new Zelt();
+     try {
+       entityManager.getTransaction().begin();
+       zelt = (Zelt) entityManager.find(Zelt.class, zeltID);
+       entityManager.getTransaction().commit();
+     } catch (Exception e) {
+       entityManager.getTransaction().rollback();
+     }
+     return zelt;
+   }
 
-  public void updateJournalEntry(Long entryID, String text, String date) {
+  public void updateZelt(Long zeltID, String name) {
     try {
       entityManager.getTransaction().begin();
-      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryID);
-      entry.setText(text);
-      entry.setDate(date);
+      Zelt zelt = (Zelt) entityManager.find(Zelt.class, zeltID);
+      zelt.setName(name);
+//      zelt.setDate(date);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
     }
   }
 
-  public void deleteJournalEntry(Long entryId) {
+  public void deleteZelt(Long zeltId) {
     try {
       entityManager.getTransaction().begin();
-      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryId);
-      entityManager.remove(entry);
+      Zelt zelt = (Zelt) entityManager.find(Zelt.class, zeltId);
+      entityManager.remove(zelt);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
@@ -258,9 +282,3 @@ public class ZeltlagerDB {
 
 
 }
-
-
-
-
-
-

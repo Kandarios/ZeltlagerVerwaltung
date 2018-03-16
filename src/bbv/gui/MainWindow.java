@@ -19,15 +19,15 @@ import bbv.gui.betreuer.BetreuerView;
 import bbv.gui.journal.JournalView;
 
 public class MainWindow {
-  
+
   private JFrame frame;
   private JScrollPane scrollPane;
   private JPanel northOnlyPanel;
   private BetreuerView betreuerView;
   private JournalView journalView;
   private boolean betreuerViewDisplayed;
-  
-  
+
+
   /**
    * Create the application.
    */
@@ -75,8 +75,8 @@ public class MainWindow {
     northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
 
     scrollPane = new JScrollPane();
-    scrollPane.getViewport().add(northOnlyPanel);
     frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+    scrollPane.setViewportView(northOnlyPanel);
     initializeMenuBar();
   }
 
@@ -126,22 +126,22 @@ public class MainWindow {
     betreuerView.repaint();
     journalView.repaint();
   }
-  
+
   private void newJournalView(Long betreuerID) {
     journalView = new JournalView(betreuerID);
     journalView.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){
-          case "return":
-            northOnlyPanel.removeAll();
-            northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
-            betreuerViewDisplayed = !betreuerViewDisplayed;
-            updateGUI();
-            break;
-          case "update":
-            updateGUI();
+        case "return":
+          northOnlyPanel.removeAll();
+          northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
+          betreuerViewDisplayed = !betreuerViewDisplayed;
+          updateGUI();
+          break;
+        case "update":
+          updateGUI();
         }
       }
     });
