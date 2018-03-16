@@ -15,11 +15,13 @@ import javax.swing.JTabbedPane;
 
 import bbv.gui.betreuer.BetreuerDialog;
 import bbv.gui.betreuer.BetreuerTab;
+import bbv.gui.zelte.ZeltTab;
 
 public class MainWindow {
 
   private JFrame frame;
   private BetreuerTab betreuerTab;
+  private ZeltTab zeltTab;
 
 
 
@@ -27,29 +29,33 @@ public class MainWindow {
    * Create the application.
    */
   public MainWindow() {
-    initialize();
+    initializeTabs();
+    initializeMenuBar();
     this.frame.setVisible(true);
   }
 
   /**
    * Initialize the contents of the frame.
    */
-  private void initialize() {
+  private void initializeTabs() {
     frame = new JFrame("Betreuer Verwaltung");
     frame.setBounds(100, 100, 1200, 900);
     frame.setMinimumSize(new Dimension(900, 500));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    
-
-    betreuerTab = new BetreuerTab(frame);
-//    frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-    
     JTabbedPane mainTabs = new JTabbedPane();
     frame.getContentPane().add(mainTabs, BorderLayout.CENTER);
+
+    betreuerTab = new BetreuerTab(frame);
     mainTabs.addTab("Betreuer", betreuerTab);
     
-    initializeMenuBar();
+    zeltTab = new ZeltTab();
+    mainTabs.addTab("Zeltplan", zeltTab);
+    
+    
   }
+  
+  
 
   private void initializeMenuBar() {
     JMenuBar menuBar = new JMenuBar();
