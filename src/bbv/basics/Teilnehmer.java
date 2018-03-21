@@ -11,20 +11,29 @@ public class Teilnehmer {
   @Column(name = "TEILNEHMERID")
   private long teilnehmerId;
   
-  @Column(name = "BETREUERID")
-  private Long betreuerID = 0L;
+//  @Column(name = "BETREUERID")
+//  private Long betreuerID = 0L;
   
-  @Column(name = "ZELTID")
-  private Long zeltID = 0L;
+//  @Column(name = "ZELTID")
+//  private Long zeltID = 0L;
   
   @Column(name = "NAME")
   private String name = "";
+
+  @Column(name = "GESCHLECHT")
+  private String geschlecht = "";
   
-  @Column(name = "STRASSE")
-  private String strasse = "";
+  @Column(name = "WUNSCH")
+  private String wunsch = "";
+
+  @Column(name = "ALTER")
+  private int alter = 0;
   
-  @Column(name = "ORT")
-  private String ort = "";
+//  @Column(name = "STRASSE")
+//  private String strasse = "";
+//  
+//  @Column(name = "ORT")
+//  private String ort = "";
   
   @Column(name = "NOTIZ", columnDefinition="TEXT")
   private String notiz = "";
@@ -33,14 +42,29 @@ public class Teilnehmer {
     
   }
   
-  public Teilnehmer(String name, String strasse, String ort, long betreuerID, long zeltID) {
+  public Teilnehmer(String name, String geschlecht, int alter, String wunsch) {
     this.name = name;
-    this.strasse = strasse;
-    this.ort = ort;
-    this.betreuerID = betreuerID;
-    this.zeltID = zeltID;
+    this.geschlecht = geschlecht;
+    this.wunsch = wunsch;
+    this.alter = alter;
   }
   
+  
+  public String getGeschlecht() {
+    return geschlecht;
+  }
+
+  public void setGeschlecht(String geschlecht) {
+    this.geschlecht = geschlecht;
+  }
+
+  public String getWunsch() {
+    return wunsch;
+  }
+
+  public void setWunsch(String wunsch) {
+    this.wunsch = wunsch;
+  }
   
   public long getTeilnehmerId() {
     return teilnehmerId;
@@ -50,21 +74,21 @@ public class Teilnehmer {
     this.teilnehmerId = teilnehmerId;
   }
 
-  public Long getBetreuerID() {
-    return betreuerID;
-  }
-
-  public void setBetreuerID(Long betreuerID) {
-    this.betreuerID = betreuerID;
-  }
-
-  public Long getZeltID() {
-    return zeltID;
-  }
-
-  public void setZeltID(Long zeltID) {
-    this.zeltID = zeltID;
-  }
+//  public Long getBetreuerID() {
+//    return betreuerID;
+//  }
+//
+//  public void setBetreuerID(Long betreuerID) {
+//    this.betreuerID = betreuerID;
+//  }
+//
+//  public Long getZeltID() {
+//    return zeltID;
+//  }
+//
+//  public void setZeltID(Long zeltID) {
+//    this.zeltID = zeltID;
+//  }
 
   public String getName() {
     return name;
@@ -74,21 +98,21 @@ public class Teilnehmer {
     this.name = name;
   }
 
-  public String getStrasse() {
-    return strasse;
-  }
-
-  public void setStrasse(String strasse) {
-    this.strasse = strasse;
-  }
-
-  public String getOrt() {
-    return ort;
-  }
-
-  public void setOrt(String ort) {
-    this.ort = ort;
-  }
+//  public String getStrasse() {
+//    return strasse;
+//  }
+//
+//  public void setStrasse(String strasse) {
+//    this.strasse = strasse;
+//  }
+//
+//  public String getOrt() {
+//    return ort;
+//  }
+//
+//  public void setOrt(String ort) {
+//    this.ort = ort;
+//  }
 
   public String getNotiz() {
     return notiz;
@@ -98,6 +122,12 @@ public class Teilnehmer {
     this.notiz = notiz;
   }
 
-
+  public int getAlter() {
+    return this.alter;
+  }
+  
+  public void setAlter(int alter) {
+    this.alter = alter;
+  }
   
 }

@@ -159,13 +159,13 @@ public class ZeltlagerDB {
     return teilnehmerList;
   }
 
-  public void updateTeilnehmer(Long teilnehmerID, String name, String notiz, Long betreuerID) {
+  public void updateTeilnehmer(Long teilnehmerID, String name, String wunsch, String notiz) {
     try {
       entityManager.getTransaction().begin();
       Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
       teilnehmer.setName(name);
       teilnehmer.setNotiz(notiz);
-      teilnehmer.setBetreuerID(betreuerID);
+      teilnehmer.setWunsch(wunsch);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       entityManager.getTransaction().rollback();

@@ -84,4 +84,8 @@ public class Betreuer {
   public List<JournalEntry> getJournalEntries() {
     return jornalEntries;
   }
+  
+  public String toString() {
+    return name;
+  }
 }
