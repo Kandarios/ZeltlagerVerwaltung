@@ -55,24 +55,26 @@ public class ZeltlagerDB {
       entityManager.getTransaction().rollback();
     }
   }
-  
-
-//  public boolean saveBetreuer(Betreuer betreuer) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      entityManager.merge(betreuer);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      entityManager.getTransaction().rollback();
-//    }
-//    return true;
-//  }
 
   public List<Betreuer> getBetreuerList() {
     List<Betreuer> betreuerList = new ArrayList<Betreuer>();
     try {
       entityManager.getTransaction().begin();
       betreuerList = entityManager.createQuery("from Betreuer").getResultList();
+      entityManager.getTransaction().commit();
+      return betreuerList;
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+    return betreuerList;
+  }
+  
+  public List<Betreuer> getUnusedBetreuerList() {
+    List<Betreuer> betreuerList = new ArrayList<Betreuer>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Betreuer where ZELTID is null ");
+      betreuerList = query.getResultList();
       entityManager.getTransaction().commit();
       return betreuerList;
     } catch (Exception e) {
@@ -106,45 +108,6 @@ public class ZeltlagerDB {
     }
   }
 
-//  public void deleteBetreuer(Long betreuerId) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      Betreuer betreuer = (Betreuer) entityManager.find(Betreuer.class, betreuerId);
-//      entityManager.remove(betreuer);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      entityManager.getTransaction().rollback();
-//    }
-//  }
-  
-  
-//  public boolean saveTeilnehmer(Teilnehmer  teilnehmer) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      entityManager.merge(teilnehmer);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      entityManager.getTransaction().rollback();
-//    }
-//    return true;
-//  }
-
-//  public List<Teilnehmer> getTeilnehmerOfBetreuer(Long betreuerID) {
-//    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
-//    try {
-//      entityManager.getTransaction().begin();
-//      Query query = entityManager.createQuery("from Teilnehmer where BETREUERID = :id ");
-//      query.setParameter("id", betreuerID);
-//      teilnehmerList = query.getResultList();
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      entityManager.getTransaction().rollback();
-//    }
-//    return teilnehmerList;
-//  }
-  
   public List<Teilnehmer> getTeilnehmer() {
     List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
     try {
@@ -171,17 +134,6 @@ public class ZeltlagerDB {
       entityManager.getTransaction().rollback();
     }
   }
-
-//  public void deleteTeilnehmer(Long teilnehmerId) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerId);
-//      entityManager.remove(teilnehmer);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      entityManager.getTransaction().rollback();
-//    }
-//  }
   
   public Teilnehmer getTeilnehmer(Long teilnehmerID) {
     Teilnehmer teilnehmer = new Teilnehmer();
@@ -194,18 +146,6 @@ public class ZeltlagerDB {
      }
      return teilnehmer;
    }
-  
-//  public boolean saveZelt(Zelt zelt) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      entityManager.merge(zelt);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      entityManager.getTransaction().rollback();
-//    }
-//    return true;
-//  }
 
   public List<Zelt> getZeltList() {
     List<Zelt> zeltList = new ArrayList<Zelt>();
@@ -245,44 +185,6 @@ public class ZeltlagerDB {
     }
   }
 
-//  public void deleteZelt(Long zeltId) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      Zelt zelt = (Zelt) entityManager.find(Zelt.class, zeltId);
-//      entityManager.remove(zelt);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      entityManager.getTransaction().rollback();
-//    }
-//  }
-//  
-//  public boolean saveJournalEntry(JournalEntry entry) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      entityManager.merge(entry);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      entityManager.getTransaction().rollback();
-//    }
-//    return true;
-//  }
-//
-//  public List<JournalEntry> getJournalEntryList(Long betreuerID) {
-//    List<JournalEntry> journalEntryList = new ArrayList<JournalEntry>();
-//    try {
-//      entityManager.getTransaction().begin();
-//      Query query = entityManager.createQuery("from JournalEntry where BETREUERID = :id ");
-//      query.setParameter("id", betreuerID);
-//      journalEntryList = query.getResultList();
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      entityManager.getTransaction().rollback();
-//    }
-//    return journalEntryList;
-//  }
-
   public void updateJournalEntry(Long entryID, String text, String date) {
     try {
       entityManager.getTransaction().begin();
@@ -294,17 +196,6 @@ public class ZeltlagerDB {
       entityManager.getTransaction().rollback();
     }
   }
-
-//  public void deleteJournalEntry(Long entryId) {
-//    try {
-//      entityManager.getTransaction().begin();
-//      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryId);
-//      entityManager.remove(entry);
-//      entityManager.getTransaction().commit();
-//    } catch (Exception e) {
-//      entityManager.getTransaction().rollback();
-//    }
-//  }
 
 
 }

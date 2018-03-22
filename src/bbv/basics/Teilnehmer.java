@@ -1,21 +1,20 @@
 package bbv.basics;
 
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="TEILNEHMER")
 public class Teilnehmer {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "TEILNEHMERID")
   private long teilnehmerId;
-  
-//  @Column(name = "BETREUERID")
-//  private Long betreuerID = 0L;
-  
-//  @Column(name = "ZELTID")
-//  private Long zeltID = 0L;
   
   @Column(name = "NAME")
   private String name = "";
@@ -29,11 +28,8 @@ public class Teilnehmer {
   @Column(name = "ALTER")
   private int alter = 0;
   
-//  @Column(name = "STRASSE")
-//  private String strasse = "";
-//  
-//  @Column(name = "ORT")
-//  private String ort = "";
+  @Column(name = "ZELTID")
+  private Long zeltId = 0L;
   
   @Column(name = "NOTIZ", columnDefinition="TEXT")
   private String notiz = "";

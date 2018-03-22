@@ -202,7 +202,9 @@ public class BetreuerDialog extends JDialog {
   }
 
   public Betreuer getBetreuer() {
-    return new Betreuer(textField_name.getText(), textField_zelt.getText(), textField_bild.getText());
+    Betreuer betreuer = new Betreuer(textField_name.getText(), textField_zelt.getText(), textField_bild.getText());
+    betreuer.setZeltId(null);
+    return betreuer;
   }
 
   public String getBetreuerName() {

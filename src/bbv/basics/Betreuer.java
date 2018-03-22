@@ -19,8 +19,12 @@ public class Betreuer {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "BETREUERID")
-  private long betreuertId;
+  private long betreuerId;
   
+  public long getBetreuerId() {
+    return betreuerId;
+  }
+
   @Column(name = "BETREUERNAME")
   private String name = "";
   
@@ -34,7 +38,17 @@ public class Betreuer {
   @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
   private List<JournalEntry> jornalEntries;
   
+  @Column(name = "ZELTID", nullable=true)
+  private Long zeltId = 0L;
   
+  public Long getZeltId() {
+    return zeltId;
+  }
+
+  public void setZeltId(Long zeltId) {
+    this.zeltId = zeltId;
+  }
+
   public Betreuer(String name, String zelt, String bild) {
     this.name = name;
     this.zelt = zelt;
@@ -43,14 +57,6 @@ public class Betreuer {
   
   public Betreuer() {
     
-  }
-  
-  public void setBetrteuerId(long betreuertId) {
-    this.betreuertId = betreuertId;
-  }
-  
-  public long getBetrteuerId() {
-    return betreuertId;
   }
   
   public void addPicture(String path) {

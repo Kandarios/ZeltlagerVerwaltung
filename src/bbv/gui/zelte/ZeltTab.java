@@ -108,7 +108,7 @@ public class ZeltTab extends JPanel {
 
 
   private void fillBetreuerList() {
-    List<Betreuer> betreuerList = betreuerDB.getBetreuerList();
+    List<Betreuer> betreuerList = betreuerDB.getUnusedBetreuerList();
     model = new DefaultListModel<Betreuer>();
     for(Betreuer b : betreuerList) {
       model.addElement(b);
