@@ -8,19 +8,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import bbv.basics.Betreuer;
 import bbv.gui.journal.JournalView;
 
-
-
-
 public class BetreuerTab extends JScrollPane{
-
   private JFrame frame;
   private JPanel northOnlyPanel;
   private BetreuerView betreuerView;
   private JournalView journalView;
   private boolean betreuerViewDisplayed;
+  private boolean betreuerChanged = false;
   
   public BetreuerTab(JFrame frame) {
     this.frame = frame;
@@ -32,8 +28,6 @@ public class BetreuerTab extends JScrollPane{
     betreuerViewDisplayed = true;
 
     journalView = new JournalView();
-
-
 
     betreuerView = new BetreuerView(frame);
     betreuerView.addActionListener(new ActionListener() {
@@ -49,17 +43,19 @@ public class BetreuerTab extends JScrollPane{
             northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
           }
           betreuerViewDisplayed = !betreuerViewDisplayed;
+          break;
         case "update":
+          betreuerChanged = true;
         default:
-          updateGUI();
+          
         }
+        updateGUI();
       }
     });
     northOnlyPanel = new JPanel();
     northOnlyPanel.setLayout(new BorderLayout());
     northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
   }
-  
   
   private void updateGUI() {
     northOnlyPanel.revalidate();
@@ -83,8 +79,6 @@ public class BetreuerTab extends JScrollPane{
           northOnlyPanel.removeAll();
           northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
           betreuerViewDisplayed = !betreuerViewDisplayed;
-          updateGUI();
-          break;
         case "update":
           updateGUI();
         }
@@ -93,9 +87,16 @@ public class BetreuerTab extends JScrollPane{
     northOnlyPanel.add(journalView, BorderLayout.NORTH);
   }
   
-  public void betreuerFromMenu(Betreuer betreuer) {
-    betreuerView.newBetreuer(betreuer);
+  public void betreuerFromMenu() {
+    betreuerChanged = true;
+    betreuerView.updateBetreuerView();
   }
   
-  
+  public boolean betreuerHaveChanged() {
+    if(betreuerChanged) {
+      betreuerChanged = false; 
+      return true;
+    }
+    return betreuerChanged;
+  }
 }

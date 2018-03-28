@@ -12,25 +12,33 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import bbv.basics.Teilnehmer;
 import bbv.gui.betreuer.BetreuerDialog;
 import bbv.gui.betreuer.BetreuerTab;
+import bbv.gui.teilnehmer.TeilnehmerDialog;
 import bbv.gui.zelte.ZeltTab;
+import database.ZeltlagerDB;
 
 public class MainWindow {
 
   private JFrame frame;
   private BetreuerTab betreuerTab;
   private ZeltTab zeltTab;
-
+  private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
 
 
   /**
    * Create the application.
    */
   public MainWindow() {
-    initializeTabs();
+    frame = new JFrame("Betreuer Verwaltung");
+    betreuerTab = new BetreuerTab(frame);
+    zeltTab = new ZeltTab();
     initializeMenuBar();
+    initializeTabs();
     this.frame.setVisible(true);
   }
 
@@ -38,24 +46,25 @@ public class MainWindow {
    * Initialize the contents of the frame.
    */
   private void initializeTabs() {
-    frame = new JFrame("Betreuer Verwaltung");
     frame.setBounds(100, 100, 1200, 900);
     frame.setMinimumSize(new Dimension(900, 500));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    
     JTabbedPane mainTabs = new JTabbedPane();
     frame.getContentPane().add(mainTabs, BorderLayout.CENTER);
-
-    betreuerTab = new BetreuerTab(frame);
+    mainTabs.addChangeListener(new ChangeListener() {
+      
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        if(betreuerTab.betreuerHaveChanged()) {
+          zeltTab.update();          
+        }
+      }
+    });
+  
     mainTabs.addTab("Betreuer", betreuerTab);
-    
-    zeltTab = new ZeltTab();
-    mainTabs.addTab("Zeltplan", zeltTab);
-    
-    
+    mainTabs.addTab("Zeltplan", zeltTab); 
   }
-  
-  
 
   private void initializeMenuBar() {
     JMenuBar menuBar = new JMenuBar();
@@ -73,24 +82,53 @@ public class MainWindow {
             frame, WindowEvent.WINDOW_CLOSING));
       }
     });
-
-    JMenuItem mntmNew = new JMenuItem("Neuer Betreuer");
-    mntmNew.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-    mntmNew.addActionListener(new ActionListener() {
+    mnFile.add(mntmExit);
+    
+    JMenu mnBetreuer = new JMenu("Betreuer");
+    mnBetreuer.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+    menuBar.add(mnBetreuer);
+    
+    JMenuItem menuItem = new JMenuItem("Neuer Betreuer");
+    menuItem.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+    menuItem.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
         BetreuerDialog dialog = new BetreuerDialog(frame);
         dialog.addActionListener(new ActionListener()
         {
           public void actionPerformed(ActionEvent arg0)
           {
-            betreuerTab.betreuerFromMenu(dialog.getBetreuer());
+            betreuerDB.save(dialog.getBetreuer());
+            betreuerTab.betreuerFromMenu();
+            zeltTab.update();
           }
         });
       }
     });
-
-    mnFile.add(mntmNew);
-    mnFile.add(mntmExit);
+    mnBetreuer.add(menuItem);
+    
+    JMenu mn_Teilnehmer = new JMenu("Teilnehmer");
+    mn_Teilnehmer.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+    menuBar.add(mn_Teilnehmer);
+    
+    JMenuItem mntmNeuerTeilnehmer = new JMenuItem("Hinzufügen");
+    mntmNeuerTeilnehmer.addActionListener(new ActionListener() {      
+      public void actionPerformed(ActionEvent e) {
+        TeilnehmerDialog dialog = new TeilnehmerDialog();
+        dialog.addActionListener(new ActionListener()
+        {
+          public void actionPerformed(ActionEvent arg0)
+          {
+            for(Teilnehmer b : dialog.getTeilnehmer()) {
+              betreuerDB.save(b);       
+            }
+            betreuerTab.betreuerFromMenu();
+            zeltTab.update();
+          }
+        });
+      }
+    });
+    mntmNeuerTeilnehmer.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+    mn_Teilnehmer.add(mntmNeuerTeilnehmer);
   }
 
  

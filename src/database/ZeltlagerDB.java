@@ -37,10 +37,12 @@ public class ZeltlagerDB {
   
   public boolean save(Object object) {
     try {
+      System.out.println("Lets save then?");
       entityManager.getTransaction().begin();
       entityManager.merge(object);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
+      System.out.println("No, not happening man.");
       entityManager.getTransaction().rollback();
     }
     return true;
@@ -56,6 +58,7 @@ public class ZeltlagerDB {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public List<Betreuer> getBetreuerList() {
     List<Betreuer> betreuerList = new ArrayList<Betreuer>();
     try {
@@ -69,6 +72,7 @@ public class ZeltlagerDB {
     return betreuerList;
   }
   
+  @SuppressWarnings("unchecked")
   public List<Betreuer> getUnusedBetreuerList() {
     List<Betreuer> betreuerList = new ArrayList<Betreuer>();
     try {
@@ -97,6 +101,7 @@ public class ZeltlagerDB {
 
   public void updateBetreuer(Long betreuerID, String newName, String newZelt, String newPicture) {
     try {
+      System.out.print("Ist doch diese Funktion?");
       entityManager.getTransaction().begin();
       Betreuer betreuer = (Betreuer) entityManager.find(Betreuer.class, betreuerID);
       betreuer.setName(newName);
@@ -108,11 +113,27 @@ public class ZeltlagerDB {
     }
   }
 
-  public List<Teilnehmer> getTeilnehmer() {
+  @SuppressWarnings("unchecked")
+  public List<Teilnehmer> getTeilnehmerList() {
     List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
     try {
       entityManager.getTransaction().begin();
       Query query = entityManager.createQuery("from Teilnehmer");
+      teilnehmerList = query.getResultList();
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      entityManager.getTransaction().rollback();
+    }
+    return teilnehmerList;
+  }
+  
+  @SuppressWarnings("unchecked")
+  public List<Teilnehmer> getUnusedTeilnehmerList() {
+    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Teilnehmer where ZELTID is null ");
       teilnehmerList = query.getResultList();
       entityManager.getTransaction().commit();
     } catch (Exception e) {
@@ -135,6 +156,30 @@ public class ZeltlagerDB {
     }
   }
   
+  public void updateTeilnehmerZelt(Long teilnehmerID, Long zeltID) {
+    try {
+      entityManager.getTransaction().begin();
+      Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
+      teilnehmer.setZeltId(zeltID);
+      entityManager.getTransaction().commit();
+      entityManager.flush();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
+  
+  public void updateBetreuerZelt(Long betreuerID, Long zeltID) {
+    try {
+      entityManager.getTransaction().begin();
+      Betreuer betreuer = (Betreuer) entityManager.find(Betreuer.class, betreuerID);
+      betreuer.setZeltId(zeltID);
+      entityManager.getTransaction().commit();
+      entityManager.flush();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
+  
   public Teilnehmer getTeilnehmer(Long teilnehmerID) {
     Teilnehmer teilnehmer = new Teilnehmer();
      try {
@@ -147,6 +192,7 @@ public class ZeltlagerDB {
      return teilnehmer;
    }
 
+  @SuppressWarnings("unchecked")
   public List<Zelt> getZeltList() {
     List<Zelt> zeltList = new ArrayList<Zelt>();
     try {
@@ -178,7 +224,6 @@ public class ZeltlagerDB {
       entityManager.getTransaction().begin();
       Zelt zelt = (Zelt) entityManager.find(Zelt.class, zeltID);
       zelt.setName(name);
-//      zelt.setDate(date);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       entityManager.getTransaction().rollback();

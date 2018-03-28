@@ -8,37 +8,34 @@ import javax.swing.table.AbstractTableModel;
 
 import bbv.basics.Teilnehmer;
 
-public class TeilnehmerTableModel extends AbstractTableModel {
+@SuppressWarnings("serial")
+public class TeilnehmerImportTableModel extends AbstractTableModel {
 
   protected static final String[] COLUMN_NAMES = {
       "Name",
+      "Geschlecht",
       "Alter",
       "Wunsch"
   };
 
   private List<Teilnehmer> rowData;
 
-  public TeilnehmerTableModel() {
+  public TeilnehmerImportTableModel() {
     rowData = new ArrayList<Teilnehmer>();
   }
 
   public void add(Teilnehmer... pd) {
     add(Arrays.asList(pd));
-    fireTableRowsInserted(0, 1);
   }
 
   public void add(List<Teilnehmer> pd) {
     rowData.addAll(pd);
+    fireTableRowsInserted(0, 1);
   }
   
   public void insert(Teilnehmer t, int rowIndex) {
-    if(rowIndex == -1) {
-      rowData.add(t);
-      fireTableRowsInserted(rowData.size() -1, rowData.size() -1);
-    } else {
-      rowData.add(rowIndex, t);
-      fireTableRowsInserted(rowIndex, rowIndex);
-    }
+    rowData.add(rowIndex, t);
+    fireTableRowsInserted(rowIndex, rowIndex);
   }
 
   @Override
@@ -67,6 +64,7 @@ public class TeilnehmerTableModel extends AbstractTableModel {
 
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
+//    try {
     Teilnehmer pd = getTeilnehmerAt(rowIndex);
     Object value = null;
     switch (columnIndex) {
@@ -74,13 +72,19 @@ public class TeilnehmerTableModel extends AbstractTableModel {
       value = pd.getName();
       break;
     case 1:
-      value = pd.getAlter();
+      value = pd.getGeschlecht();
       break;
     case 2:
+      value = pd.getAlter();
+      break;
+    case 3:
       value = pd.getWunsch();
       break;
     }
     return value;
+//    } catch (Exception e) {
+//      return "";
+//    }
   }
 
   public boolean removeElement(Object obj) {
@@ -90,6 +94,10 @@ public class TeilnehmerTableModel extends AbstractTableModel {
 
   public void clear() {
     rowData.clear();
+  }
+  
+  public List<Teilnehmer> getAllTeilnehmer() {
+    return rowData;
   }
 
 }

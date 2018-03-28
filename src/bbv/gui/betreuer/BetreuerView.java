@@ -29,7 +29,7 @@ public class BetreuerView extends JPanel {
     this.setLayout(new GridLayout(0, 3, 0, 0));
     listExistingBetreuer();
   }
-  
+
   public void newBetreuer(Betreuer betreuer) {
     betreuerDB.save(betreuer);
     listExistingBetreuer();
@@ -48,8 +48,8 @@ public class BetreuerView extends JPanel {
     }
     updateBetreuerView();
   }
-  
-  
+
+
   private void addListener(AbstractBetreuerPanel panel) {
     if(panel instanceof BetreuerPlusPanel) {
       panel.addActionListener(new ActionListener() {
@@ -77,59 +77,59 @@ public class BetreuerView extends JPanel {
       panel.addMouseListener(new MouseAdapter() {
         public void mousePressed(MouseEvent e){
           if (e.isPopupTrigger())
-              doPop(e);
-      }
+            doPop(e);
+        }
 
-      public void mouseReleased(MouseEvent e){
+        public void mouseReleased(MouseEvent e){
           if (e.isPopupTrigger())
-              doPop(e);
-      }
+            doPop(e);
+        }
 
-      private void doPop(MouseEvent e){
-        
-        JPopupMenu menu = new JPopupMenu();
-        
-        JMenuItem changeItem;
-        JMenuItem deleteItem;
-        
-        changeItem = new JMenuItem("Bearbeiten");
-        menu.add(changeItem);
-        
-        changeItem.addActionListener(new ActionListener() {
-          
-          @Override
-          public void actionPerformed(ActionEvent e) {
-          BetreuerDialog dialog = new BetreuerDialog(frame, betreuerPanel.getBetreuer());
-          dialog.addActionListener(new ActionListener()
-          {
-            public void actionPerformed(ActionEvent arg0)
-            {
-              betreuerDB.updateBetreuer(betreuerPanel.getBetreuer().getBetreuerId(), dialog.getBetreuerName(), dialog.getBetreuerZelt(), dialog.getBetreuerPicture());
+        private void doPop(MouseEvent e){
+
+          JPopupMenu menu = new JPopupMenu();
+
+          JMenuItem changeItem;
+          JMenuItem deleteItem;
+
+          changeItem = new JMenuItem("Bearbeiten");
+          menu.add(changeItem);
+
+          changeItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              BetreuerDialog dialog = new BetreuerDialog(frame, betreuerPanel.getBetreuer());
+              dialog.addActionListener(new ActionListener()
+              {
+                public void actionPerformed(ActionEvent arg0)
+                {
+                  betreuerDB.updateBetreuer(betreuerPanel.getBetreuer().getBetreuerId(), dialog.getBetreuerName(), dialog.getBetreuerZelt(), dialog.getBetreuerPicture());
+                  listExistingBetreuer();
+                }
+              });
+            }
+          });
+
+          deleteItem = new JMenuItem("Löschen");
+          menu.add(deleteItem);
+
+          deleteItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              betreuerDB.delete(betreuerPanel.getBetreuer());
               listExistingBetreuer();
             }
           });
-          }
-        });
-        
-        deleteItem = new JMenuItem("Löschen");
-        menu.add(deleteItem);
-        
-        deleteItem.addActionListener(new ActionListener() {
-          
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            betreuerDB.delete(betreuerPanel.getBetreuer());
-            listExistingBetreuer();
-          }
-        });
-        menu.show(e.getComponent(), e.getX(), e.getY());
-      }
+          menu.show(e.getComponent(), e.getX(), e.getY());
+        }
       });
     }
   }
-  
-  
-  private void updateBetreuerView() {
+
+
+  public void updateBetreuerView() {
     //change something
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
@@ -137,7 +137,7 @@ public class BetreuerView extends JPanel {
       }
     });
   }
-  
+
   private void update() {
     this.removeAll();
     for(AbstractBetreuerPanel panel : betreuerPanelList) {
@@ -146,12 +146,12 @@ public class BetreuerView extends JPanel {
     this.validate();
     informListeners("update");
   }
-  
-  
+
+
   public void addPanel(JPanel panel) {
     this.add(panel);
   }
-  
+
   public void addActionListener(ActionListener listener) {
     listeners.add(listener);
   }

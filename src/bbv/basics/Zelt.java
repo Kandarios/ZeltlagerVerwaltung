@@ -28,11 +28,11 @@ public class Zelt {
   private String notiz = "";
   
   @OneToMany(mappedBy = "zeltId")
-  @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+  @Cascade({CascadeType.SAVE_UPDATE})
   private List<Betreuer> betreuerList;
-  
+
   @OneToMany(mappedBy = "zeltId")
-  @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+  @Cascade({CascadeType.SAVE_UPDATE})
   private List<Teilnehmer> teilnehmerList;
   
   public Zelt() {
@@ -45,10 +45,6 @@ public class Zelt {
   
   public long getZeltId() {
     return zeltId;
-  }
-
-  public void setZeltId(long zeltId) {
-    this.zeltId = zeltId;
   }
 
   public String getName() {
@@ -65,5 +61,33 @@ public class Zelt {
 
   public void setNotiz(String notiz) {
     this.notiz = notiz;
+  }
+  
+  public List<Betreuer> getBetreuerList() {
+    return betreuerList;
+  }
+  
+  public void insterBetreuer(Betreuer b, int i) {
+    betreuerList.add(i, b);
+  }
+
+  public List<Teilnehmer> getTeilnehmerList() {
+    return teilnehmerList;
+  }
+  
+  public void insterTeilnehmer(Teilnehmer t, int i) {
+    teilnehmerList.add(i, t);
+  }
+  
+  public void removeTeilnehmer(Teilnehmer teilnehmer) {
+    teilnehmerList.remove(teilnehmer);
+  }
+  
+  public void removeBetreuer(Betreuer betreuer) {
+    betreuerList.remove(betreuer);
+  }
+
+  public void removeBetreuerAt(int index0) {
+    betreuerList.remove(index0);
   }
 }

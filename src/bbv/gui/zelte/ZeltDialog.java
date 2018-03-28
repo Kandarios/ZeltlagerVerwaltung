@@ -1,9 +1,7 @@
-package bbv.gui.betreuer;
+package bbv.gui.zelte;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +11,16 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import bbv.basics.Betreuer;
-import helper.ImageUtilities;
+import bbv.basics.Zelt;
 
+public class ZeltDialog extends JDialog {
 
-public class BetreuerDialog extends JDialog {
-
-  private JFrame parent;
+//  private JFrame parent;
 
   private JTextField textField_name;
   private JTextField textField_bild;
@@ -40,23 +34,27 @@ public class BetreuerDialog extends JDialog {
   private List<ActionListener> listeners = new ArrayList<ActionListener>();
 
 
-  public BetreuerDialog(JFrame frame) {
-    this.parent = frame;
+  /**
+   * @wbp.parser.constructor
+   */
+  public ZeltDialog(//JFrame frame
+      ) {
+//    this.parent = frame;
     setupGUI(false); 
-    registerListeners();
+//    registerListeners();
   }
 
-  public BetreuerDialog(JFrame frame, Betreuer selectedBetreuer) {
-    this.parent = frame;
+  public ZeltDialog(JFrame frame, Zelt selectedZelt) {
+//    this.parent = frame;
     setupGUI(true); 
-    registerListeners();
-    textField_name.setText(selectedBetreuer.getName());
-    textField_zelt.setText(selectedBetreuer.getZelt());
-    textField_bild.setText(selectedBetreuer.getPicture());
-    showImage(selectedBetreuer.getPicture());
+//    registerListeners();
+    textField_name.setText(selectedZelt.getName());
+//    textField_zelt.setText(selectedZelt.getZelt());
+//    textField_bild.setText(selectedZelt.getPicture());
+//    showImage(selectedZelt.getPicture());
   }
 
-  private void setupGUI(boolean existingBetreuer) {
+  private void setupGUI(boolean existingZelt) {
     setResizable(false);
     setBounds(100, 100, 750, 500);
     setVisible(true);
@@ -65,7 +63,7 @@ public class BetreuerDialog extends JDialog {
     JLabel lblBild = new JLabel("Bild:");
     JLabel lblZelt = new JLabel("Zelt:");
 
-    if(existingBetreuer) {
+    if(existingZelt) {
       button_add = new JButton("Speichern");
     } else {
       button_add = new JButton("Hinzufügen");
@@ -153,77 +151,78 @@ public class BetreuerDialog extends JDialog {
     getContentPane().setLayout(groupLayout);
   }
 
-  private void registerListeners() {
-    button_add.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        if(textField_name.getText().isEmpty()) { 
-          JOptionPane.showMessageDialog(parent,
-              "Bitte gib den Namen des Betreuers an.",
-              "Fehlende Angabe",
-              JOptionPane.WARNING_MESSAGE); 
-        } else {
-          informListeners();
-          dispose();
-        }
-      }
-    });
-
-    button_cancel.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        dispose();
-      }
-    });
-
-    button_loadImage.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        JFileChooser c = new JFileChooser();
-        int rVal = c.showOpenDialog(BetreuerDialog.this);
-        if(rVal == JFileChooser.APPROVE_OPTION) {
-          textField_bild.setText(c.getSelectedFile().getAbsolutePath());
-          showImage(c.getSelectedFile().getAbsolutePath());
-        }
-      }
-    });
-
-  }
-
-  private void showImage(String path) {
-    if(ImageUtilities.imageExists(path)) {
-      ImageIcon icon = new ImageIcon(path);
-      Dimension scaledDimension = ImageUtilities.getScaledDimension(new Dimension(icon.getIconWidth(), icon.getIconHeight()),  pictureDimension);
-      lblPreview.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int) scaledDimension.getWidth(), (int) scaledDimension.getHeight(), Image.SCALE_DEFAULT)));
-      textField_bild.setForeground(Color.black);
-    } else {
-      lblPreview.setIcon(new ImageIcon(new ImageIcon("./data/default_person.png").getImage().getScaledInstance(290, 259, Image.SCALE_DEFAULT)));
-      textField_bild.setForeground(Color.red);
-    }
-  }
-
-  public Betreuer getBetreuer() {
-    Betreuer betreuer = new Betreuer(textField_name.getText(), textField_zelt.getText(), textField_bild.getText());
-    return betreuer;
-  }
-
-  public String getBetreuerName() {
-    return textField_name.getText();
-  }
-
-  public String getBetreuerZelt() {
-    return textField_zelt.getText();
-  }
-
-  public String getBetreuerPicture() {
-    return  textField_bild.getText();
-  }
-
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners() {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, "Aproved");
-      listener.actionPerformed(event);;
-    }
-  }
+//  private void registerListeners() {
+////    button_add.addActionListener(new ActionListener() {
+////      public void actionPerformed(ActionEvent e) {
+////        if(textField_name.getText().isEmpty()) { 
+////          JOptionPane.showMessageDialog(parent,
+////              "Bitte gib den Namen des Zelts an.",
+////              "Fehlende Angabe",
+////              JOptionPane.WARNING_MESSAGE); 
+////        } else {
+////          informListeners();
+////          dispose();
+////        }
+////      }
+////    });
+////
+////    button_cancel.addActionListener(new ActionListener() {
+////      public void actionPerformed(ActionEvent e) {
+////        dispose();
+////      }
+////    });
+////
+////    button_loadImage.addActionListener(new ActionListener() {
+////      public void actionPerformed(ActionEvent e) {
+////        JFileChooser c = new JFileChooser();
+////        int rVal = c.showOpenDialog(ZeltDialog.this);
+////        if(rVal == JFileChooser.APPROVE_OPTION) {
+////          textField_bild.setText(c.getSelectedFile().getAbsolutePath());
+////          showImage(c.getSelectedFile().getAbsolutePath());
+////        }
+////      }
+////    });
+//
+//  }
+//
+//  private void showImage(String path) {
+////    if(ImageUtilities.imageExists(path)) {
+////      ImageIcon icon = new ImageIcon(path);
+////      Dimension scaledDimension = ImageUtilities.getScaledDimension(new Dimension(icon.getIconWidth(), icon.getIconHeight()),  pictureDimension);
+////      lblPreview.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int) scaledDimension.getWidth(), (int) scaledDimension.getHeight(), Image.SCALE_DEFAULT)));
+////      textField_bild.setForeground(Color.black);
+////    } else {
+////      lblPreview.setIcon(new ImageIcon(new ImageIcon("./data/default_person.png").getImage().getScaledInstance(290, 259, Image.SCALE_DEFAULT)));
+////      textField_bild.setForeground(Color.red);
+////    }
+//  }
+//
+//  public Zelt getZelt() {
+////    Zelt zelt = new Zelt(textField_name.getText(), textField_zelt.getText(), textField_bild.getText());
+////    zelt.setZeltId(null);
+//    return new Zelt();
+//  }
+//
+//  public String getZeltName() {
+//    return textField_name.getText();
+//  }
+//
+//  public String getZeltZelt() {
+//    return textField_zelt.getText();
+//  }
+//
+//  public String getZeltPicture() {
+//    return  textField_bild.getText();
+//  }
+//
+//  public void addActionListener(ActionListener listener) {
+//    listeners.add(listener);
+//  }
+//
+//  private void informListeners() {
+////    for(ActionListener listener : listeners) {
+////      ActionEvent event = new ActionEvent(this, 0, "Aproved");
+////      listener.actionPerformed(event);;
+////    }
+//  }
 }

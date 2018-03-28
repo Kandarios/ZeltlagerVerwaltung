@@ -38,10 +38,6 @@ public class JournalEntry {
     return entryId;
   }
 
-  public void setEntryId(long entryId) {
-    this.entryId = entryId;
-  }
-
   public Long getBetreuerID() {
     return betreuerID;
   }

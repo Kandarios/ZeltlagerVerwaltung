@@ -28,9 +28,9 @@ public class Teilnehmer {
   @Column(name = "ALTER")
   private int alter = 0;
   
-  @Column(name = "ZELTID")
-  private Long zeltId = 0L;
-  
+  @Column(name = "ZELTID", nullable=true)
+  private Long zeltId = null;
+
   @Column(name = "NOTIZ", columnDefinition="TEXT")
   private String notiz = "";
   
@@ -45,6 +45,14 @@ public class Teilnehmer {
     this.alter = alter;
   }
   
+  
+  public Long getZeltId() {
+    return zeltId;
+  }
+
+  public void setZeltId(Long zeltId) {
+    this.zeltId = zeltId;
+  }
   
   public String getGeschlecht() {
     return geschlecht;
@@ -66,26 +74,6 @@ public class Teilnehmer {
     return teilnehmerId;
   }
 
-  public void setTeilnehmerId(long teilnehmerId) {
-    this.teilnehmerId = teilnehmerId;
-  }
-
-//  public Long getBetreuerID() {
-//    return betreuerID;
-//  }
-//
-//  public void setBetreuerID(Long betreuerID) {
-//    this.betreuerID = betreuerID;
-//  }
-//
-//  public Long getZeltID() {
-//    return zeltID;
-//  }
-//
-//  public void setZeltID(Long zeltID) {
-//    this.zeltID = zeltID;
-//  }
-
   public String getName() {
     return name;
   }
@@ -93,22 +81,6 @@ public class Teilnehmer {
   public void setName(String name) {
     this.name = name;
   }
-
-//  public String getStrasse() {
-//    return strasse;
-//  }
-//
-//  public void setStrasse(String strasse) {
-//    this.strasse = strasse;
-//  }
-//
-//  public String getOrt() {
-//    return ort;
-//  }
-//
-//  public void setOrt(String ort) {
-//    this.ort = ort;
-//  }
 
   public String getNotiz() {
     return notiz;

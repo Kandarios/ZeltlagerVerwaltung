@@ -21,10 +21,6 @@ public class Betreuer {
   @Column(name = "BETREUERID")
   private long betreuerId;
   
-  public long getBetreuerId() {
-    return betreuerId;
-  }
-
   @Column(name = "BETREUERNAME")
   private String name = "";
   
@@ -39,7 +35,7 @@ public class Betreuer {
   private List<JournalEntry> jornalEntries;
   
   @Column(name = "ZELTID", nullable=true)
-  private Long zeltId = 0L;
+  private Long zeltId = null;
   
   public Long getZeltId() {
     return zeltId;
@@ -93,5 +89,9 @@ public class Betreuer {
   
   public String toString() {
     return name;
+  }
+  
+  public long getBetreuerId() {
+    return betreuerId;
   }
 }

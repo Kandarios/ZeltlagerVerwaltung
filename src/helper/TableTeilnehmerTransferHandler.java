@@ -37,7 +37,7 @@ public class TableTeilnehmerTransferHandler extends TransferHandler {
             TeilnehmerTableModel tableModel = (TeilnehmerTableModel)targetTable.getModel();
             JTable.DropLocation dl = (JTable.DropLocation)support.getDropLocation();
             int index = dl.getRow();
-            tableModel.add((Teilnehmer) value);
+            tableModel.insert((Teilnehmer) value, index);
           }
           accept = true;
         }
