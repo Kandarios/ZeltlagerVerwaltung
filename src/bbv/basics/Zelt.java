@@ -1,5 +1,6 @@
 package bbv.basics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -29,11 +30,11 @@ public class Zelt {
   
   @OneToMany(mappedBy = "zeltId")
   @Cascade({CascadeType.SAVE_UPDATE})
-  private List<Betreuer> betreuerList;
+  private List<Betreuer> betreuerList = new ArrayList<Betreuer>();
 
   @OneToMany(mappedBy = "zeltId")
   @Cascade({CascadeType.SAVE_UPDATE})
-  private List<Teilnehmer> teilnehmerList;
+  private List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
   
   public Zelt() {
     

@@ -37,12 +37,10 @@ public class ZeltlagerDB {
   
   public boolean save(Object object) {
     try {
-      System.out.println("Lets save then?");
       entityManager.getTransaction().begin();
       entityManager.merge(object);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
-      System.out.println("No, not happening man.");
       entityManager.getTransaction().rollback();
     }
     return true;

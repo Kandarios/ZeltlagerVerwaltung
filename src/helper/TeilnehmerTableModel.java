@@ -24,11 +24,11 @@ public class TeilnehmerTableModel extends AbstractTableModel {
 
   public void add(Teilnehmer... pd) {
     add(Arrays.asList(pd));
-    fireTableRowsInserted(0, 1);
   }
 
   public void add(List<Teilnehmer> pd) {
     rowData.addAll(pd);
+    fireTableRowsInserted(0, 1);
   }
   
   public void insert(Teilnehmer t, int rowIndex) {

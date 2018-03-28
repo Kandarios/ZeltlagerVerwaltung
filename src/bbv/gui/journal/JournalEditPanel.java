@@ -93,8 +93,6 @@ public class JournalEditPanel extends AbstractJournalPanel {
   }
   
   void saveEntry() {
-    System.out.println("In EditPanel the ID is " + betreuerID);
-
     informListeners("saved");
   }
   

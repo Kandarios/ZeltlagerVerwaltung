@@ -1,4 +1,5 @@
 package bbv.basics;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -32,7 +33,7 @@ public class Betreuer {
   
   @OneToMany(mappedBy = "betreuerID")
   @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
-  private List<JournalEntry> jornalEntries;
+  private List<JournalEntry> jornalEntries = new ArrayList<JournalEntry>();
   
   @Column(name = "ZELTID", nullable=true)
   private Long zeltId = null;

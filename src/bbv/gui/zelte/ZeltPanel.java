@@ -48,6 +48,7 @@ public class ZeltPanel extends JPanel {
   private Zelt zelt;
   private ZeltlagerDB database = ZeltlagerDB.getInstance();
 
+  private List<ActionListener> listeners = new ArrayList<ActionListener>();
 
   public ZeltPanel(Zelt z) {
     this.zelt = z;
@@ -135,12 +136,11 @@ public class ZeltPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-              System.out.println("Delete this: " + zelt.getName());
+              deleteThisZelt();
             }
           });
           menu.show(e.getComponent(), e.getX(), e.getY());
         } else {
-          System.out.println("Klick");
           for(JComponent c : hideableComponents) {
             c.setVisible(!c.isVisible());
           }
@@ -210,5 +210,28 @@ public class ZeltPanel extends JPanel {
       public void contentsChanged(ListDataEvent e) {}
     });
   }
+  
+  private void deleteThisZelt() {
+    for(Betreuer b : zelt.getBetreuerList()) {
+      database.updateBetreuerZelt(b.getBetreuerId(), null);
+    }
+    list_betreuer.removeAll();
+    for(Teilnehmer t : zelt.getTeilnehmerList()) {
+      database.updateTeilnehmerZelt(t.getTeilnehmerId(), null);
+    }
+    table_teilnehmer.removeAll();
+    database.delete(zelt);
+    informListeners("delete");
+  }
+  
+  public void addActionListener(ActionListener listener) {
+    listeners.add(listener);
+  }
 
+  private void informListeners(String reason) {
+    for(ActionListener listener : listeners) {
+      ActionEvent event = new ActionEvent(this, 0, reason);
+      listener.actionPerformed(event);;
+    }
+  }
 }

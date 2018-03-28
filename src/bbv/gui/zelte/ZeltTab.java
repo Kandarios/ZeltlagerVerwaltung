@@ -149,7 +149,15 @@ public class ZeltTab extends JPanel {
   public void fillZeltView() {
     zeltView.removeAll();
     for(Zelt z : betreuerDB.getZeltList()) {
-      zeltView.add(new ZeltPanel(z)); ///TODO Maybe change this to a list of panels like in betreuerview
+      ZeltPanel zp = new ZeltPanel(z);
+      zp.addActionListener(new ActionListener() {
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          update();
+        }
+      });
+      zeltView.add(zp); ///TODO Maybe change this to a list of panels like in betreuerview
     }
     zeltView.revalidate();
     zeltView.repaint();
