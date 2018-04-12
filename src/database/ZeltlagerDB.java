@@ -97,41 +97,25 @@ public class ZeltlagerDB {
     return betreuer;
   }
 
-  public void updateBetreuer(Long betreuerID, String newName, String newZelt, String newPicture) {
+  public void updateBetreuer(Long betreuerID, String newName, String newPicture) {
     try {
       System.out.print("Ist doch diese Funktion?");
       entityManager.getTransaction().begin();
       Betreuer betreuer = (Betreuer) entityManager.find(Betreuer.class, betreuerID);
       betreuer.setName(newName);
-      betreuer.setZelt(newZelt);
       betreuer.setPicture(newPicture);
       entityManager.getTransaction().commit();
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
     }
   }
-
-  @SuppressWarnings("unchecked")
-  public List<Teilnehmer> getTeilnehmerList() {
-    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
-    try {
-      entityManager.getTransaction().begin();
-      Query query = entityManager.createQuery("from Teilnehmer");
-      teilnehmerList = query.getResultList();
-      entityManager.getTransaction().commit();
-    } catch (Exception e) {
-      e.printStackTrace();
-      entityManager.getTransaction().rollback();
-    }
-    return teilnehmerList;
-  }
   
   @SuppressWarnings("unchecked")
-  public List<Teilnehmer> getUnusedTeilnehmerList() {
+  public List<Teilnehmer> getUnusedTeilnehmerList(String gender) {
     List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
     try {
       entityManager.getTransaction().begin();
-      Query query = entityManager.createQuery("from Teilnehmer where ZELTID is null ");
+      Query query = entityManager.createQuery("from Teilnehmer where ZELTID is null and GESCHLECHT='" + gender + "' order by ALTER");
       teilnehmerList = query.getResultList();
       entityManager.getTransaction().commit();
     } catch (Exception e) {
@@ -166,6 +150,19 @@ public class ZeltlagerDB {
     }
   }
   
+  public void updateTeilnehmerAbreise(Long teilnehmerID, boolean abgereist, String date) {
+    try {
+      entityManager.getTransaction().begin();
+      Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
+      teilnehmer.setAbreiseDate(date);
+      teilnehmer.setAbgereist(abgereist);
+      entityManager.getTransaction().commit();
+      entityManager.flush();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
+  
   public void updateBetreuerZelt(Long betreuerID, Long zeltID) {
     try {
       entityManager.getTransaction().begin();
@@ -191,11 +188,11 @@ public class ZeltlagerDB {
    }
 
   @SuppressWarnings("unchecked")
-  public List<Zelt> getZeltList() {
+  public List<Zelt> getZeltList(String gender) {
     List<Zelt> zeltList = new ArrayList<Zelt>();
     try {
       entityManager.getTransaction().begin();
-      Query query = entityManager.createQuery("from Zelt");
+      Query query = entityManager.createQuery("from Zelt  where GESCHLECHT='" + gender + "'");
       zeltList = query.getResultList();
       entityManager.getTransaction().commit();
     } catch (Exception e) {

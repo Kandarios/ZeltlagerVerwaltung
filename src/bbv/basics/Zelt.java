@@ -28,6 +28,9 @@ public class Zelt {
   @Column(name = "NOTIZ", columnDefinition="TEXT")
   private String notiz = "";
   
+  @Column(name = "GESCHLECHT")
+  private String geschlecht = "";
+  
   @OneToMany(mappedBy = "zeltId")
   @Cascade({CascadeType.SAVE_UPDATE})
   private List<Betreuer> betreuerList = new ArrayList<Betreuer>();
@@ -40,8 +43,9 @@ public class Zelt {
     
   }
   
-  public Zelt(String name) {
+  public Zelt(String name, String geschlecht) {
     this.name = name;
+    this.geschlecht = geschlecht;
   }
   
   public long getZeltId() {
@@ -91,4 +95,9 @@ public class Zelt {
   public void removeBetreuerAt(int index0) {
     betreuerList.remove(index0);
   }
+  
+  public String getGeschlecht() {
+    return geschlecht;
+  }
+
 }

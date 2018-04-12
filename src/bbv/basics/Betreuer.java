@@ -25,8 +25,8 @@ public class Betreuer {
   @Column(name = "BETREUERNAME")
   private String name = "";
   
-  @Column(name = "BETREUERZELT")
-  private String zelt = "";
+//  @Column(name = "BETREUERZELT")
+//  private String zelt = "";
   
   @Column(name = "BETREUERBILD")
   private String picturePath = ""; 
@@ -46,9 +46,8 @@ public class Betreuer {
     this.zeltId = zeltId;
   }
 
-  public Betreuer(String name, String zelt, String bild) {
+  public Betreuer(String name, String bild) {
     this.name = name;
-    this.zelt = zelt;
     this.picturePath = bild;
   }
   
@@ -68,13 +67,13 @@ public class Betreuer {
     this.name =  name;
   }
   
-  public String getZelt() {
-    return zelt;
-  }
-  
-  public void setZelt(String zelt) {
-    this.zelt =  zelt;
-  }
+//  public String getZelt() {
+//    return zelt;
+//  }
+//  
+//  public void setZelt(String zelt) {
+//    this.zelt =  zelt;
+//  }
   
   public String getPicture() {
     return picturePath;

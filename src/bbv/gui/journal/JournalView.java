@@ -62,7 +62,7 @@ public class JournalView extends JPanel {
     });
     panel_top.setLayout(new BorderLayout(0, 0));
 
-    JLabel lbl_betreuer = new JLabel("Name: " + betreuer.getName() + ",      Zelt: " + betreuer.getZelt());
+    JLabel lbl_betreuer = new JLabel("Name: " + betreuer.getName() + ",      Zelt: ");
     panel_top.add(lbl_betreuer);
     panel_top.add(btnNewButton, BorderLayout.EAST);
 

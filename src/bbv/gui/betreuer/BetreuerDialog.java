@@ -30,7 +30,6 @@ public class BetreuerDialog extends JDialog {
 
   private JTextField textField_name;
   private JTextField textField_bild;
-  private JTextField textField_zelt;
   private JLabel lblPreview;
   private JButton button_add;
   private JButton button_cancel;
@@ -40,6 +39,9 @@ public class BetreuerDialog extends JDialog {
   private List<ActionListener> listeners = new ArrayList<ActionListener>();
 
 
+  /**
+   * @wbp.parser.constructor
+   */
   public BetreuerDialog(JFrame frame) {
     this.parent = frame;
     setupGUI(false); 
@@ -51,7 +53,6 @@ public class BetreuerDialog extends JDialog {
     setupGUI(true); 
     registerListeners();
     textField_name.setText(selectedBetreuer.getName());
-    textField_zelt.setText(selectedBetreuer.getZelt());
     textField_bild.setText(selectedBetreuer.getPicture());
     showImage(selectedBetreuer.getPicture());
   }
@@ -63,7 +64,6 @@ public class BetreuerDialog extends JDialog {
 
     JLabel lblName = new JLabel("Name:");
     JLabel lblBild = new JLabel("Bild:");
-    JLabel lblZelt = new JLabel("Zelt:");
 
     if(existingBetreuer) {
       button_add = new JButton("Speichern");
@@ -82,9 +82,6 @@ public class BetreuerDialog extends JDialog {
 
     textField_bild = new JTextField();
     textField_bild.setColumns(10);
-
-    textField_zelt = new JTextField();
-    textField_zelt.setColumns(10);
 
     GroupLayout groupLayout = new GroupLayout(getContentPane());
     groupLayout.setHorizontalGroup(
@@ -119,12 +116,6 @@ public class BetreuerDialog extends JDialog {
                             .addGap(419)
                             .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)))
                     .addGap(27))))
-        .addGroup(groupLayout.createSequentialGroup()
-            .addContainerGap(43, Short.MAX_VALUE)
-            .addComponent(lblZelt, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-            .addGap(18)
-            .addComponent(textField_zelt, GroupLayout.PREFERRED_SIZE, 618, GroupLayout.PREFERRED_SIZE)
-            .addGap(27))
         );
     groupLayout.setVerticalGroup(
         groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -136,10 +127,6 @@ public class BetreuerDialog extends JDialog {
                 .addComponent(textField_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(lblName))
             .addPreferredGap(ComponentPlacement.RELATED)
-            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                .addComponent(lblZelt)
-                .addComponent(textField_zelt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-            .addGap(9)
             .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblBild)
                 .addComponent(textField_bild, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -200,7 +187,7 @@ public class BetreuerDialog extends JDialog {
   }
 
   public Betreuer getBetreuer() {
-    Betreuer betreuer = new Betreuer(textField_name.getText(), textField_zelt.getText(), textField_bild.getText());
+    Betreuer betreuer = new Betreuer(textField_name.getText(), textField_bild.getText());
     return betreuer;
   }
 
@@ -208,12 +195,8 @@ public class BetreuerDialog extends JDialog {
     return textField_name.getText();
   }
 
-  public String getBetreuerZelt() {
-    return textField_zelt.getText();
-  }
-
   public String getBetreuerPicture() {
-    return  textField_bild.getText();
+    return textField_bild.getText();
   }
 
   public void addActionListener(ActionListener listener) {

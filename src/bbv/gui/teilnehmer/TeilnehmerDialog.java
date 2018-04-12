@@ -36,7 +36,7 @@ public class TeilnehmerDialog extends JDialog {
 
   public TeilnehmerDialog() {
     setupGUI(); 
-    informListeners("Aproved");
+//    informListeners("Aproved");
   }
 
   private void setupGUI() {

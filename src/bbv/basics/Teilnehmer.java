@@ -34,6 +34,12 @@ public class Teilnehmer {
   @Column(name = "NOTIZ", columnDefinition="TEXT")
   private String notiz = "";
   
+  @Column(name = "ABGEFAHREN")
+  private boolean isAbgereist = false;
+  
+  @Column(name = "ABREISEDATE", nullable=true)
+  private String abreiseDate = null;
+  
   public Teilnehmer() {
     
   }
@@ -44,8 +50,7 @@ public class Teilnehmer {
     this.wunsch = wunsch;
     this.alter = alter;
   }
-  
-  
+   
   public Long getZeltId() {
     return zeltId;
   }
@@ -96,6 +101,22 @@ public class Teilnehmer {
   
   public void setAlter(int alter) {
     this.alter = alter;
+  }
+  
+  public boolean isAbgereist() {
+    return isAbgereist;
+  }
+
+  public void setAbgereist(boolean isAbgereist) {
+    this.isAbgereist = isAbgereist;
+  }
+
+  public String getAbreiseDate() {
+    return abreiseDate;
+  }
+
+  public void setAbreiseDate(String abreiseDate) {
+    this.abreiseDate = abreiseDate;
   }
   
 }

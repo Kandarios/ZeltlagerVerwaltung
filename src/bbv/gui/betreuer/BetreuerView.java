@@ -104,7 +104,7 @@ public class BetreuerView extends JPanel {
               {
                 public void actionPerformed(ActionEvent arg0)
                 {
-                  betreuerDB.updateBetreuer(betreuerPanel.getBetreuer().getBetreuerId(), dialog.getBetreuerName(), dialog.getBetreuerZelt(), dialog.getBetreuerPicture());
+                  betreuerDB.updateBetreuer(betreuerPanel.getBetreuer().getBetreuerId(), dialog.getBetreuerName(), dialog.getBetreuerPicture());
                   listExistingBetreuer();
                 }
               });

@@ -1,18 +1,24 @@
 package bbv.gui.zelte;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -40,15 +46,16 @@ public class ZeltTab extends JPanel {
   private DefaultListModel<Betreuer> model;
   private JTable table;
   private TeilnehmerTableModel tableModel;
+  JLabel lblZeltverwaltung = new JLabel("Zeltverwaltung");
+  JButton btnGender = new JButton("");
 
   private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
+  boolean viewIsFemale = true;
 
 
   public ZeltTab() {
     initializeGUI();
-    fillBetreuerList();
-    fillZeltView();
-    fillTeilnehmerTable();
+    update();
     addInsertListeners();
   }
 
@@ -77,7 +84,18 @@ public class ZeltTab extends JPanel {
     table.setTransferHandler(new TableTeilnehmerTransferHandler());
     table.setPreferredScrollableViewportSize(new Dimension(300, 100));
     table.setFillsViewportHeight(true);
+    
+    JPopupMenu popupMenu = new JPopupMenu();
+    JMenuItem deleteItem = new JMenuItem("Löschen");
+    deleteItem.addActionListener(new ActionListener() {
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "Right-click performed on table and choose DELETE");
+        }
+    });
+    popupMenu.add(deleteItem);
+    table.setComponentPopupMenu(popupMenu);    
     panel_teilnehmer.setViewportView(table);
 
     JPanel panel_betreuer = new JPanel();
@@ -101,10 +119,21 @@ public class ZeltTab extends JPanel {
     JPanel panel_header = new JPanel();
     panel_header.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     add(panel_header, BorderLayout.NORTH);
+    panel_header.setLayout(new BorderLayout(0, 0));
 
-    JLabel lblZeltverwaltung = new JLabel("Zeltverwaltung");
+    btnGender.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        update();
+      }
+    });
+    panel_header.add(btnGender, BorderLayout.EAST);
+
+    JPanel panel = new JPanel();
+    panel_header.add(panel, BorderLayout.CENTER);
+
+    
+    panel.add(lblZeltverwaltung);
     lblZeltverwaltung.setFont(new Font("Tahoma", Font.BOLD, 16));
-    panel_header.add(lblZeltverwaltung);
 
     JScrollPane scrollPane = new JScrollPane();
     scrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -130,7 +159,11 @@ public class ZeltTab extends JPanel {
     btnAddZelt.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         if(!"".equals(textField.getText())) {
-          betreuerDB.save(new Zelt(textField.getText()));
+          if(viewIsFemale) {
+            betreuerDB.save(new Zelt(textField.getText(), "w"));
+          } else {
+            betreuerDB.save(new Zelt(textField.getText(), "m"));
+          }
           textField.setText("");
           fillZeltView();
         }
@@ -148,10 +181,16 @@ public class ZeltTab extends JPanel {
 
   public void fillZeltView() {
     zeltView.removeAll();
-    for(Zelt z : betreuerDB.getZeltList()) {
+    String gender = "";
+    if(viewIsFemale) {
+      gender = "w";
+    } else {
+      gender = "m";
+    }
+    for(Zelt z : betreuerDB.getZeltList(gender)) {
       ZeltPanel zp = new ZeltPanel(z);
       zp.addActionListener(new ActionListener() {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
           update();
@@ -163,12 +202,29 @@ public class ZeltTab extends JPanel {
     zeltView.repaint();
   }
 
-  public void fillTeilnehmerTable() {
+  public void fillTeilnehmerTable() {  //TODO make this gender specific
+    String gender = "";
+    if(viewIsFemale) {
+      gender = "w";
+    } else {
+      gender = "m";
+    }
     tableModel.clear();
-    tableModel.add(betreuerDB.getUnusedTeilnehmerList());
+    tableModel.add(betreuerDB.getUnusedTeilnehmerList(gender));
+    table.updateUI();
   }
 
   public void update() {
+    if(viewIsFemale) {
+      btnGender.setIcon(new ImageIcon(new ImageIcon("./data/male.png").getImage().getScaledInstance(15, 20, Image.SCALE_DEFAULT)));
+      btnGender.setBackground(Color.CYAN);
+      lblZeltverwaltung.setText("Zeltverwaltung (Jungen)");
+    } else {
+      btnGender.setIcon(new ImageIcon(new ImageIcon("./data/female.png").getImage().getScaledInstance(15, 20, Image.SCALE_DEFAULT)));
+      btnGender.setBackground(Color.PINK);
+      lblZeltverwaltung.setText("Zeltverwaltung (Mädchen)");
+    }
+    viewIsFemale = !viewIsFemale; 
     fillBetreuerList();
     fillZeltView();
     fillTeilnehmerTable();
@@ -176,7 +232,7 @@ public class ZeltTab extends JPanel {
 
   public void addInsertListeners() {
     tableModel.addTableModelListener(new TableModelListener() {
-      
+
       @Override
       public void tableChanged(TableModelEvent e) {
         if(e.getType() == TableModelEvent.INSERT) {
