@@ -86,11 +86,11 @@ public class MainWindow {
     });
     mnFile.add(mntmExit);
     
-    JMenu mnBetreuer = new JMenu("Betreuer");
-    mnBetreuer.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-    menuBar.add(mnBetreuer);
+    JMenu mnHinzufügen = new JMenu("Hinzufügen");
+    mnHinzufügen.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+    menuBar.add(mnHinzufügen);
     
-    JMenuItem menuItem = new JMenuItem("Neuer Betreuer");
+    JMenuItem menuItem = new JMenuItem("Betreuer");
     menuItem.setFont(new Font("Segoe UI", Font.PLAIN, 18));
     menuItem.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
@@ -106,13 +106,11 @@ public class MainWindow {
         });
       }
     });
-    mnBetreuer.add(menuItem);
+    mnHinzufügen.add(menuItem);
     
-    JMenu mn_Teilnehmer = new JMenu("Teilnehmer");
-    mn_Teilnehmer.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-    menuBar.add(mn_Teilnehmer);
     
-    JMenuItem mntmNeuerTeilnehmer = new JMenuItem("Hinzufügen");
+    
+    JMenuItem mntmNeuerTeilnehmer = new JMenuItem("Teilnehmer");
     mntmNeuerTeilnehmer.addActionListener(new ActionListener() {      
       public void actionPerformed(ActionEvent e) {
         TeilnehmerDialog dialog = new TeilnehmerDialog();
@@ -130,7 +128,7 @@ public class MainWindow {
       }
     });
     mntmNeuerTeilnehmer.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-    mn_Teilnehmer.add(mntmNeuerTeilnehmer);
+    mnHinzufügen.add(mntmNeuerTeilnehmer);
     
     JMenu mnSuchen = new JMenu("Suchen");
     mnSuchen.setFont(new Font("Segoe UI", Font.PLAIN, 17));
@@ -164,7 +162,6 @@ public class MainWindow {
       
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("Mainwindow reacts on search selection: " + dialog.getZelt().getName());
         mainTabs.setSelectedComponent(zeltTab);
         zeltTab.showSearchedZelt(dialog.getZelt());
       }
