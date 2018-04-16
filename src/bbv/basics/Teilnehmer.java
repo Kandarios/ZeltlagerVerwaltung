@@ -119,4 +119,8 @@ public class Teilnehmer {
     this.abreiseDate = abreiseDate;
   }
   
+  public String toString() {
+    return this.name;
+  }
+  
 }

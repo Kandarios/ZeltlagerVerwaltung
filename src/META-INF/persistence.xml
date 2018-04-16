@@ -18,7 +18,7 @@
 			<property name="hibernate.connection.password" value="" />
 			<property name="hibernate.connection.user" value="" />
 			<property name="hibernate.connection.url" value="jdbc:h2:./data/betreuerDB" />
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.connection.autocommit" value="true" />
 
 

@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -40,22 +41,25 @@ import helper.TeilnehmerTableModel;
 @SuppressWarnings("serial")
 public class ZeltTab extends JPanel {
   private JPanel zeltView; 
-  private JPanel inBetweenPannel;
+  //  private JPanel inBetweenPannel;
   private JTextField textField;
   private JList<Betreuer> list_betreuer;
   private DefaultListModel<Betreuer> model;
   private JTable table;
   private TeilnehmerTableModel tableModel;
-  JLabel lblZeltverwaltung = new JLabel("Zeltverwaltung");
-  JButton btnGender = new JButton("");
+  private JLabel lblZeltverwaltung = new JLabel("Zeltverwaltung");
+  private JButton btnGender = new JButton("");
+  private JScrollPane zeltScrollPane = new JScrollPane();
 
   private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
   boolean viewIsFemale = true;
+  private JFrame parent;
 
 
-  public ZeltTab() {
+  public ZeltTab(JFrame parent) {
+    this.parent = parent;
     initializeGUI();
-    update();
+    updateView();
     addInsertListeners();
   }
 
@@ -84,15 +88,15 @@ public class ZeltTab extends JPanel {
     table.setTransferHandler(new TableTeilnehmerTransferHandler());
     table.setPreferredScrollableViewportSize(new Dimension(300, 100));
     table.setFillsViewportHeight(true);
-    
+
     JPopupMenu popupMenu = new JPopupMenu();
     JMenuItem deleteItem = new JMenuItem("Löschen");
     deleteItem.addActionListener(new ActionListener() {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "Right-click performed on table and choose DELETE");
-        }
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(null, "Right-click performed on table and choose DELETE");
+      }
     });
     popupMenu.add(deleteItem);
     table.setComponentPopupMenu(popupMenu);    
@@ -123,7 +127,8 @@ public class ZeltTab extends JPanel {
 
     btnGender.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        update();
+        viewIsFemale = !viewIsFemale; 
+        updateView();
       }
     });
     panel_header.add(btnGender, BorderLayout.EAST);
@@ -131,25 +136,26 @@ public class ZeltTab extends JPanel {
     JPanel panel = new JPanel();
     panel_header.add(panel, BorderLayout.CENTER);
 
-    
+
     panel.add(lblZeltverwaltung);
     lblZeltverwaltung.setFont(new Font("Tahoma", Font.BOLD, 16));
 
-    JScrollPane scrollPane = new JScrollPane();
-    scrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-    add(scrollPane, BorderLayout.CENTER);
 
-    inBetweenPannel = new JPanel();
-    scrollPane.setViewportView(inBetweenPannel);
-    inBetweenPannel.setLayout(new BorderLayout(0, 0));
+    zeltScrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+    add(zeltScrollPane, BorderLayout.CENTER);
+
+    //    inBetweenPannel = new JPanel();
+    //    zeltScrollPane.setViewportView(inBetweenPannel);
+    //    inBetweenPannel.setLayout(new BorderLayout(0, 0));
 
     zeltView = new JPanel();
-    inBetweenPannel.add(zeltView, BorderLayout.CENTER);
+    //    inBetweenPannel.add(zeltView, BorderLayout.CENTER);
+    zeltScrollPane.setViewportView(zeltView);
     zeltView.setLayout(new BoxLayout(zeltView, BoxLayout.Y_AXIS));
 
     JPanel panel_addZelt = new JPanel();
     panel_addZelt.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-    scrollPane.setColumnHeaderView(panel_addZelt);
+    zeltScrollPane.setColumnHeaderView(panel_addZelt);
 
     textField = new JTextField();
     panel_addZelt.add(textField);
@@ -165,7 +171,7 @@ public class ZeltTab extends JPanel {
             betreuerDB.save(new Zelt(textField.getText(), "m"));
           }
           textField.setText("");
-          fillZeltView();
+          fillZeltView(null);
         }
       }
     });
@@ -179,7 +185,7 @@ public class ZeltTab extends JPanel {
     }
   }
 
-  public void fillZeltView() {
+  public void fillZeltView(Long searchID) {
     zeltView.removeAll();
     String gender = "";
     if(viewIsFemale) {
@@ -187,16 +193,23 @@ public class ZeltTab extends JPanel {
     } else {
       gender = "m";
     }
+    ZeltPanel searchFocusPanel = null; 
     for(Zelt z : betreuerDB.getZeltList(gender)) {
       ZeltPanel zp = new ZeltPanel(z);
       zp.addActionListener(new ActionListener() {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-          update();
+          updateView();
         }
       });
-      zeltView.add(zp); ///TODO Maybe change this to a list of panels like in betreuerview
+      if(searchID != null) {
+        if(searchID.equals(z.getZeltId())) {
+          System.out.println("add as first");
+          zeltView.add(zp, 0);
+          continue;
+        }
+      }
+      zeltView.add(zp); 
     }
     zeltView.revalidate();
     zeltView.repaint();
@@ -214,20 +227,28 @@ public class ZeltTab extends JPanel {
     table.updateUI();
   }
 
-  public void update() {
+  public void updateView() {
+    update();
+    fillZeltView(null);
+  }
+
+  private void update() {
     if(viewIsFemale) {
       btnGender.setIcon(new ImageIcon(new ImageIcon("./data/male.png").getImage().getScaledInstance(15, 20, Image.SCALE_DEFAULT)));
       btnGender.setBackground(Color.CYAN);
-      lblZeltverwaltung.setText("Zeltverwaltung (Jungen)");
+      lblZeltverwaltung.setText("Zeltverwaltung (Mädchen)");
     } else {
       btnGender.setIcon(new ImageIcon(new ImageIcon("./data/female.png").getImage().getScaledInstance(15, 20, Image.SCALE_DEFAULT)));
       btnGender.setBackground(Color.PINK);
-      lblZeltverwaltung.setText("Zeltverwaltung (Mädchen)");
+      lblZeltverwaltung.setText("Zeltverwaltung (Jungen)");
     }
-    viewIsFemale = !viewIsFemale; 
     fillBetreuerList();
-    fillZeltView();
     fillTeilnehmerTable();
+  }
+
+  public void updateAfterSearch(Long zeltID) {
+    update();
+    fillZeltView(zeltID);
   }
 
   public void addInsertListeners() {
@@ -256,5 +277,16 @@ public class ZeltTab extends JPanel {
       @Override
       public void contentsChanged(ListDataEvent e) {}
     });
+  }
+
+  public void showSearchedZelt(Zelt zelt) {
+    if("w".equals(zelt.getGeschlecht())) {
+      viewIsFemale = true;
+      System.out.println("Wir wollen die mädchen Zelte sehen");
+    } else {
+      viewIsFemale = false;
+      System.out.println("Wir wollen die jungs Zelte sehen");
+    }
+    updateAfterSearch(zelt.getZeltId());
   }
 }

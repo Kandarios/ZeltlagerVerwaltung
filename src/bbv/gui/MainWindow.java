@@ -21,6 +21,8 @@ import bbv.gui.betreuer.BetreuerTab;
 import bbv.gui.teilnehmer.TeilnehmerDialog;
 import bbv.gui.zelte.ZeltTab;
 import database.ZeltlagerDB;
+import helper.TeilnehmerSearchTableModel;
+import helper.ZeltSearchTableModel;
 
 public class MainWindow {
 
@@ -28,6 +30,7 @@ public class MainWindow {
   private BetreuerTab betreuerTab;
   private ZeltTab zeltTab;
   private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
+  private JTabbedPane mainTabs = new JTabbedPane();
 
 
   /**
@@ -36,7 +39,7 @@ public class MainWindow {
   public MainWindow() {
     frame = new JFrame("Betreuer Verwaltung");
     betreuerTab = new BetreuerTab(frame);
-    zeltTab = new ZeltTab();
+    zeltTab = new ZeltTab(frame);
     initializeMenuBar();
     initializeTabs();
     this.frame.setVisible(true);
@@ -50,14 +53,13 @@ public class MainWindow {
     frame.setMinimumSize(new Dimension(900, 500));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    
-    JTabbedPane mainTabs = new JTabbedPane();
     frame.getContentPane().add(mainTabs, BorderLayout.CENTER);
     mainTabs.addChangeListener(new ChangeListener() {
       
       @Override
       public void stateChanged(ChangeEvent e) {
         if(betreuerTab.betreuerHaveChanged()) {
-          zeltTab.update();          
+          zeltTab.updateView();          
         }
       }
     });
@@ -99,7 +101,7 @@ public class MainWindow {
           {
             betreuerDB.save(dialog.getBetreuer());
             betreuerTab.betreuerFromMenu();
-            zeltTab.update();
+            zeltTab.updateView();
           }
         });
       }
@@ -122,14 +124,52 @@ public class MainWindow {
               betreuerDB.save(b);       
             }
             betreuerTab.betreuerFromMenu();
-            zeltTab.update();
+            zeltTab.updateView();
           }
         });
       }
     });
     mntmNeuerTeilnehmer.setFont(new Font("Segoe UI", Font.PLAIN, 18));
     mn_Teilnehmer.add(mntmNeuerTeilnehmer);
+    
+    JMenu mnSuchen = new JMenu("Suchen");
+    mnSuchen.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+    menuBar.add(mnSuchen);
+    
+    JMenuItem mntmSearchTeilnehmer = new JMenuItem("Teilnehmer");
+    mntmSearchTeilnehmer.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+    mntmSearchTeilnehmer.addActionListener(new ActionListener() {      
+      public void actionPerformed(ActionEvent e) {
+        SearchWindow dialog = new SearchWindow(new TeilnehmerSearchTableModel(), "Teilnehmer suchen");
+        switchToSearchResult(dialog);
+        dialog.setVisible(true);
+      }
+    });
+    mnSuchen.add(mntmSearchTeilnehmer);
+    
+    JMenuItem mntmSearchZelt = new JMenuItem("Zelt");
+    mntmSearchZelt.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+    mntmSearchZelt.addActionListener(new ActionListener() {      
+      public void actionPerformed(ActionEvent e) {
+        SearchWindow dialog = new SearchWindow(new ZeltSearchTableModel(), "Zelt suchen");
+        switchToSearchResult(dialog);
+        dialog.setVisible(true);
+      }
+    });
+    mnSuchen.add(mntmSearchZelt);
   }
 
+  private void switchToSearchResult(SearchWindow dialog) {
+    dialog.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("Mainwindow reacts on search selection: " + dialog.getZelt().getName());
+        mainTabs.setSelectedComponent(zeltTab);
+        zeltTab.showSearchedZelt(dialog.getZelt());
+      }
+    });
+  }
+  
  
 }

@@ -163,6 +163,20 @@ public class ZeltlagerDB {
     }
   }
   
+  public List<Teilnehmer> searchTeilnehmer(String name) {
+    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Teilnehmer where NAME LIKE '%" + name + "%'");
+      teilnehmerList = query.getResultList();
+      entityManager.getTransaction().commit();
+      entityManager.flush();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+    return teilnehmerList;
+  }
+  
   public void updateBetreuerZelt(Long betreuerID, Long zeltID) {
     try {
       entityManager.getTransaction().begin();
@@ -235,6 +249,20 @@ public class ZeltlagerDB {
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
     }
+  }
+
+  public List<Zelt> searchZelt(String name) {
+    List<Zelt> teilnehmerList = new ArrayList<Zelt>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Zelt where NAME LIKE '%" + name + "%'");
+      teilnehmerList = query.getResultList();
+      entityManager.getTransaction().commit();
+      entityManager.flush();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+    return teilnehmerList;
   }
 
 
