@@ -31,18 +31,13 @@ public class Teilnehmer {
   @Column(name = "ZELTID", nullable=true)
   private Long zeltId = null;
 
-  @Column(name = "NOTIZ", columnDefinition="TEXT")
-  private String notiz = "";
-  
   @Column(name = "ABGEFAHREN")
   private boolean isAbgereist = false;
   
   @Column(name = "ABREISEDATE", nullable=true)
   private String abreiseDate = null;
   
-  public Teilnehmer() {
-    
-  }
+  public Teilnehmer() {}
   
   public Teilnehmer(String name, String geschlecht, int alter, String wunsch) {
     this.name = name;
@@ -85,14 +80,6 @@ public class Teilnehmer {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getNotiz() {
-    return notiz;
-  }
-
-  public void setNotiz(String notiz) {
-    this.notiz = notiz;
   }
 
   public int getAlter() {

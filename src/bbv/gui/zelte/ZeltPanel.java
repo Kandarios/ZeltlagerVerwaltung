@@ -37,6 +37,7 @@ import javax.swing.table.TableCellRenderer;
 import bbv.basics.Betreuer;
 import bbv.basics.Teilnehmer;
 import bbv.basics.Zelt;
+import bbv.gui.ResponsivePanel;
 import database.ZeltlagerDB;
 import helper.ListBetreuerTransferHandler;
 import helper.TableSelectionMouseListener;
@@ -44,7 +45,7 @@ import helper.TableTeilnehmerTransferHandler;
 import helper.TeilnehmerTableModel;
 
 @SuppressWarnings("serial")
-public class ZeltPanel extends JPanel {
+public class ZeltPanel extends ResponsivePanel {
   private JList<Betreuer> list_betreuer;
   private DefaultListModel<Betreuer> model;
   private JTable table_teilnehmer;
@@ -56,7 +57,6 @@ public class ZeltPanel extends JPanel {
   private Zelt zelt;
   private ZeltlagerDB database = ZeltlagerDB.getInstance();
 
-  private List<ActionListener> listeners = new ArrayList<ActionListener>();
 
   public ZeltPanel(Zelt z) {
     this.zelt = z;
@@ -300,16 +300,5 @@ public class ZeltPanel extends JPanel {
     table_teilnehmer.removeAll();
     database.delete(zelt);
     informListeners("delete");
-  }
-
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners(String reason) {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, reason);
-      listener.actionPerformed(event);;
-    }
   }
 }

@@ -12,7 +12,5 @@ public class BetreuerPlusPanel extends AbstractBetreuerPanel {
     lblNewLabel.setText("Neuer Betreuer");
     btnNewButton.setIcon(new ImageIcon(new ImageIcon("./data/plus.png").getImage().getScaledInstance(220, 220, Image.SCALE_DEFAULT)));
     add(btnNewButton, BorderLayout.CENTER);
-
   }
-
 }

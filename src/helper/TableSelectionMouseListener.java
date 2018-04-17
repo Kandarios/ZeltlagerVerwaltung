@@ -21,7 +21,6 @@ public class TableSelectionMouseListener extends MouseAdapter {
 
   @Override
   public void mousePressed(MouseEvent event) {
-    // selects the row at which point the mouse is clicked
     Point point = event.getPoint();
     try {
       int currentRow = table.rowAtPoint(point);

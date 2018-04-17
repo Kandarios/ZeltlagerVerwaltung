@@ -13,7 +13,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -41,7 +40,6 @@ import helper.TeilnehmerTableModel;
 @SuppressWarnings("serial")
 public class ZeltTab extends JPanel {
   private JPanel zeltView; 
-  //  private JPanel inBetweenPannel;
   private JTextField textField;
   private JList<Betreuer> list_betreuer;
   private DefaultListModel<Betreuer> model;
@@ -53,11 +51,9 @@ public class ZeltTab extends JPanel {
 
   private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
   boolean viewIsFemale = true;
-  private JFrame parent;
 
 
-  public ZeltTab(JFrame parent) {
-    this.parent = parent;
+  public ZeltTab() {
     initializeGUI();
     updateView();
     addInsertListeners();
@@ -139,20 +135,13 @@ public class ZeltTab extends JPanel {
     JPanel panel = new JPanel();
     panel_header.add(panel, BorderLayout.CENTER);
 
-
     panel.add(lblZeltverwaltung);
     lblZeltverwaltung.setFont(new Font("Tahoma", Font.BOLD, 16));
-
 
     zeltScrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     add(zeltScrollPane, BorderLayout.CENTER);
 
-    //    inBetweenPannel = new JPanel();
-    //    zeltScrollPane.setViewportView(inBetweenPannel);
-    //    inBetweenPannel.setLayout(new BorderLayout(0, 0));
-
     zeltView = new JPanel();
-    //    inBetweenPannel.add(zeltView, BorderLayout.CENTER);
     zeltScrollPane.setViewportView(zeltView);
     zeltView.setLayout(new BoxLayout(zeltView, BoxLayout.Y_AXIS));
 
@@ -196,7 +185,6 @@ public class ZeltTab extends JPanel {
     } else {
       gender = "m";
     }
-    ZeltPanel searchFocusPanel = null; 
     for(Zelt z : betreuerDB.getZeltList(gender)) {
       ZeltPanel zp = new ZeltPanel(z);
       zp.addActionListener(new ActionListener() {
@@ -217,7 +205,7 @@ public class ZeltTab extends JPanel {
     zeltView.repaint();
   }
 
-  public void fillTeilnehmerTable() {  //TODO make this gender specific
+  public void fillTeilnehmerTable() { 
     String gender = "";
     if(viewIsFemale) {
       gender = "w";

@@ -1,6 +1,5 @@
 package database;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,14 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import bbv.basics.Betreuer;
-import bbv.basics.JournalEntry;
 import bbv.basics.Teilnehmer;
 import bbv.basics.Zelt;
 
-/**
- *
- * @author sqlitetutorial.net
- */
 public class ZeltlagerDB {
 
   private EntityManager entityManager = EntityManagerUtil.getEntityManager();
@@ -125,19 +119,6 @@ public class ZeltlagerDB {
     return teilnehmerList;
   }
 
-  public void updateTeilnehmer(Long teilnehmerID, String name, String wunsch, String notiz) {
-    try {
-      entityManager.getTransaction().begin();
-      Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
-      teilnehmer.setName(name);
-      teilnehmer.setNotiz(notiz);
-      teilnehmer.setWunsch(wunsch);
-      entityManager.getTransaction().commit();
-    } catch (Exception e) {
-      entityManager.getTransaction().rollback();
-    }
-  }
-  
   public void updateTeilnehmerZelt(Long teilnehmerID, Long zeltID) {
     try {
       entityManager.getTransaction().begin();
@@ -188,18 +169,6 @@ public class ZeltlagerDB {
       entityManager.getTransaction().rollback();
     }
   }
-  
-  public Teilnehmer getTeilnehmer(Long teilnehmerID) {
-    Teilnehmer teilnehmer = new Teilnehmer();
-     try {
-       entityManager.getTransaction().begin();
-       teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
-       entityManager.getTransaction().commit();
-     } catch (Exception e) {
-       entityManager.getTransaction().rollback();
-     }
-     return teilnehmer;
-   }
 
   @SuppressWarnings("unchecked")
   public List<Zelt> getZeltList(String gender) {
@@ -228,29 +197,6 @@ public class ZeltlagerDB {
      return zelt;
    }
 
-  public void updateZelt(Long zeltID, String name) {
-    try {
-      entityManager.getTransaction().begin();
-      Zelt zelt = (Zelt) entityManager.find(Zelt.class, zeltID);
-      zelt.setName(name);
-      entityManager.getTransaction().commit();
-    } catch (Exception e) {
-      entityManager.getTransaction().rollback();
-    }
-  }
-
-  public void updateJournalEntry(Long entryID, String text, String date) {
-    try {
-      entityManager.getTransaction().begin();
-      JournalEntry entry = (JournalEntry) entityManager.find(JournalEntry.class, entryID);
-      entry.setText(text);
-      entry.setDate(date);
-      entityManager.getTransaction().commit();
-    } catch (Exception e) {
-      entityManager.getTransaction().rollback();
-    }
-  }
-
   public List<Zelt> searchZelt(String name) {
     List<Zelt> teilnehmerList = new ArrayList<Zelt>();
     try {
@@ -264,6 +210,4 @@ public class ZeltlagerDB {
     }
     return teilnehmerList;
   }
-
-
 }

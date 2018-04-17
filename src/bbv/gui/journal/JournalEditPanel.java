@@ -19,8 +19,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import bbv.basics.JournalEntry;
+import bbv.gui.ResponsivePanel;
 
-public class JournalEditPanel extends AbstractJournalPanel {
+public class JournalEditPanel extends ResponsivePanel {
   
   Long betreuerID;
   private JTextField textField;
@@ -99,7 +100,4 @@ public class JournalEditPanel extends AbstractJournalPanel {
   JournalEntry getEntry() {
     return new JournalEntry(betreuerID, textField.getText(), textArea.getText());
   }
-  
-
-
 }

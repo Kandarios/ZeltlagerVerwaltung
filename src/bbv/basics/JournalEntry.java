@@ -24,9 +24,7 @@ public class JournalEntry {
   @Column(name = "TEXT", columnDefinition="TEXT")
   private String text = "";
   
-  public JournalEntry() {
-    
-  }
+  public JournalEntry() {}
   
   public JournalEntry(Long betreuerID, String date, String text) {
     this.betreuerID = betreuerID;
@@ -61,5 +59,4 @@ public class JournalEntry {
   public void setText(String text) {
     this.text = text;
   }
-
 }

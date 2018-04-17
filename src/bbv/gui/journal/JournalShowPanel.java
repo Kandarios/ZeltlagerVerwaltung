@@ -16,8 +16,9 @@ import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
 import bbv.basics.JournalEntry;
+import bbv.gui.ResponsivePanel;
 
-public class JournalShowPanel extends AbstractJournalPanel {
+public class JournalShowPanel extends ResponsivePanel {
   
   JournalEntry entry;
   

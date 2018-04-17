@@ -83,7 +83,6 @@ public class ListBetreuerTransferHandler extends TransferHandler {
 
   @Override
   protected void exportDone(JComponent c, Transferable data, int action) {
-
     if (c instanceof JList) {
       @SuppressWarnings("unchecked")
       JList<Betreuer> source = (JList<Betreuer>) c;
@@ -96,16 +95,14 @@ public class ListBetreuerTransferHandler extends TransferHandler {
         catch (UnsupportedFlavorException | IOException e) {
 
         }
-
       }
     }
   }
 
   private void removeFromListModel( DefaultListModel<Betreuer>listModel, Object dataToRemove) {
-      boolean removedSuccessfully = listModel.removeElement(dataToRemove);
-      if (!removedSuccessfully) {
-        System.err.println("Source model did not contain exported data");
-      }
-    
+    boolean removedSuccessfully = listModel.removeElement(dataToRemove);
+    if (!removedSuccessfully) {
+      System.err.println("Source model did not contain exported data");
+    }
   }
 }

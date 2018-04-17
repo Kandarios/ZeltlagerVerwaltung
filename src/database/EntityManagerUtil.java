@@ -19,6 +19,5 @@ public class EntityManagerUtil {
 
   public static EntityManager getEntityManager() {
     return entityManagerFactory.createEntityManager();
-
   }
 }

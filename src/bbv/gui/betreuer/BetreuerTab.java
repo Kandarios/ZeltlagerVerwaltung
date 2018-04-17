@@ -46,8 +46,6 @@ public class BetreuerTab extends JScrollPane{
           break;
         case "update":
           betreuerChanged = true;
-        default:
-          
         }
         updateGUI();
       }
@@ -78,10 +76,9 @@ public class BetreuerTab extends JScrollPane{
         case "return":
           northOnlyPanel.removeAll();
           northOnlyPanel.add(betreuerView, BorderLayout.NORTH);
-          betreuerViewDisplayed = !betreuerViewDisplayed;
-        case "update":
-          updateGUI();
+          betreuerViewDisplayed = !betreuerViewDisplayed;        
         }
+        updateGUI();
       }
     });
     northOnlyPanel.add(journalView, BorderLayout.NORTH);
@@ -89,7 +86,8 @@ public class BetreuerTab extends JScrollPane{
   
   public void betreuerFromMenu() {
     betreuerChanged = true;
-    betreuerView.updateBetreuerView();
+    betreuerView.betreuerFromMenu();
+    updateGUI();
   }
   
   public boolean betreuerHaveChanged() {

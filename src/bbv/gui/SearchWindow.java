@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,15 +19,14 @@ import database.ZeltlagerDB;
 import helper.TeilnehmerSearchTableModel;
 import helper.ZeltSearchTableModel;
 
-public class SearchWindow extends JDialog {
+public class SearchWindow extends ResponsiveDialog {
   private JTable table;
   private JTextField textField;
   private ZeltlagerDB database = ZeltlagerDB.getInstance();  
   private AbstractTableModel model;
-  private List<ActionListener> listeners = new ArrayList<ActionListener>();
 
   private Zelt z = null;
-  
+
   public SearchWindow(AbstractTableModel tableModel, String title) {
     setMinimumSize(new Dimension(800, 600));
     getContentPane().setLayout(new BorderLayout(0, 0));
@@ -106,20 +103,8 @@ public class SearchWindow extends JDialog {
       });
       panel_2.add(btnNewButton, BorderLayout.EAST);
   }
-  
+
   public Zelt getZelt() {
     return z;
-  }
-
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners() {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, "Aproved");
-      listener.actionPerformed(event);;
-    }
-  }
-  
+  } 
 }

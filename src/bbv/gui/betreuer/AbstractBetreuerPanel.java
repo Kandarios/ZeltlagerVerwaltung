@@ -5,21 +5,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import bbv.gui.ResponsivePanel;
 
-public abstract class AbstractBetreuerPanel extends JPanel {
+
+public abstract class AbstractBetreuerPanel extends ResponsivePanel {
   JButton btnNewButton = new JButton("");
   JLabel lblNewLabel = new JLabel("");
-  
-  
+
+
   public AbstractBetreuerPanel() {
     setBorder(new LineBorder(Color.GRAY, 1, true));
     setLayout(new BorderLayout(0, 0));
@@ -30,7 +29,7 @@ public abstract class AbstractBetreuerPanel extends JPanel {
 
     btnNewButton.setBackground(Color.LIGHT_GRAY);
     btnNewButton.setHorizontalAlignment(SwingConstants.CENTER);
-    
+
     btnNewButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -38,22 +37,4 @@ public abstract class AbstractBetreuerPanel extends JPanel {
       }
     });
   }
-
-  private List<ActionListener> listeners = new ArrayList<ActionListener>();
-
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners() {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, "Aproved");
-      listener.actionPerformed(event);;
-    }
-  }
-
-
-
-
-
 }

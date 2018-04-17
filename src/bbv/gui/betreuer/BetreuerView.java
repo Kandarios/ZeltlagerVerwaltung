@@ -15,12 +15,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import bbv.basics.Betreuer;
+import bbv.gui.ResponsivePanel;
 import database.ZeltlagerDB;
 
-public class BetreuerView extends JPanel {
+public class BetreuerView extends ResponsivePanel {
   private List<AbstractBetreuerPanel> betreuerPanelList = new ArrayList<AbstractBetreuerPanel>();
   private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
-  private List<ActionListener> listeners = new ArrayList<ActionListener>();
   private JFrame frame;
   private Long currentBetreuerID;
 
@@ -128,9 +128,7 @@ public class BetreuerView extends JPanel {
     }
   }
 
-
   public void updateBetreuerView() {
-    //change something
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         update();
@@ -147,23 +145,15 @@ public class BetreuerView extends JPanel {
     informListeners("update");
   }
 
-
   public void addPanel(JPanel panel) {
     this.add(panel);
   }
 
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners(String command) {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, command);
-      listener.actionPerformed(event);;
-    }
-  }
-
   public Long getCurrentBetreuerID() {
     return currentBetreuerID;
+  }
+
+  public void betreuerFromMenu() {
+    listExistingBetreuer();
   }
 }

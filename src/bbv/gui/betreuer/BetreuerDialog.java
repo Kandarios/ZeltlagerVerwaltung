@@ -5,14 +5,11 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,10 +18,11 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import bbv.basics.Betreuer;
+import bbv.gui.ResponsiveDialog;
 import helper.ImageUtilities;
 
 
-public class BetreuerDialog extends JDialog {
+public class BetreuerDialog extends ResponsiveDialog {
 
   private JFrame parent;
 
@@ -36,12 +34,7 @@ public class BetreuerDialog extends JDialog {
   private JButton button_loadImage;
 
   private Dimension pictureDimension = new Dimension(290, 259); 
-  private List<ActionListener> listeners = new ArrayList<ActionListener>();
 
-
-  /**
-   * @wbp.parser.constructor
-   */
   public BetreuerDialog(JFrame frame) {
     this.parent = frame;
     setupGUI(false); 
@@ -197,16 +190,5 @@ public class BetreuerDialog extends JDialog {
 
   public String getBetreuerPicture() {
     return textField_bild.getText();
-  }
-
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners() {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, "Aproved");
-      listener.actionPerformed(event);;
-    }
   }
 }

@@ -22,17 +22,16 @@ import javax.swing.border.EtchedBorder;
 
 import bbv.basics.Betreuer;
 import bbv.basics.JournalEntry;
+import bbv.gui.ResponsivePanel;
 import database.ZeltlagerDB;
 
-public class JournalView extends JPanel {
+public class JournalView extends ResponsivePanel {
 
   Long betreuerID;
   Betreuer betreuer;
   ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
   JPanel entryPanel = new JPanel();
-  private List<AbstractJournalPanel> journalPanelList = new ArrayList<AbstractJournalPanel>();
-
-  private List<ActionListener> listeners = new ArrayList<ActionListener>();
+  private List<ResponsivePanel> journalPanelList = new ArrayList<ResponsivePanel>();
 
   public JournalView() {
     setLayout(new BorderLayout(0, 0));
@@ -72,24 +71,12 @@ public class JournalView extends JPanel {
     listExistingJounralEntries();
   }
 
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners(String command) {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, command);
-      listener.actionPerformed(event);;
-    }
-  }
-
   private void listExistingJounralEntries() {
     
     journalPanelList.clear();
     JournalEditPanel editPanel = new JournalEditPanel(betreuerID);
     addListeners(editPanel);
     journalPanelList.add(editPanel);
-    /// TODO: Do this with refresh instead?
     betreuerDB.refresh(betreuer);
     List<JournalEntry> list = betreuer.getJournalEntries();
     Collections.sort(list, new JournalComparator().reversed());
@@ -102,7 +89,6 @@ public class JournalView extends JPanel {
   }
 
   private void updateJounralView() {
-    //change something
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         update();
@@ -110,7 +96,7 @@ public class JournalView extends JPanel {
     });
   }
 
-  private void addListeners(AbstractJournalPanel panel) {
+  private void addListeners(ResponsivePanel panel) {
 
     if(panel instanceof JournalEditPanel) {
       JournalEditPanel editPanel = (JournalEditPanel) panel;
@@ -140,12 +126,10 @@ public class JournalView extends JPanel {
 
   private void update() {
     entryPanel.removeAll();
-    for(AbstractJournalPanel panel : journalPanelList) {
+    for(ResponsivePanel panel : journalPanelList) {
       entryPanel.add(panel);   
     }
-    //    this.revalidate();
     entryPanel.validate();
-    //    entryPanel.repaint();
     informListeners("update");
   }
 
@@ -160,7 +144,6 @@ public class JournalView extends JPanel {
         secondDate = df.parse(o2.getDate());
         return firstDate.compareTo(secondDate);
       } catch (ParseException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       return -1;

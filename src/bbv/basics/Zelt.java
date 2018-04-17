@@ -21,16 +21,13 @@ public class Zelt {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "ZELTID")
   private long zeltId;
-  
+
   @Column(name = "NAME")
   private String name = "";
-  
-  @Column(name = "NOTIZ", columnDefinition="TEXT")
-  private String notiz = "";
-  
+
   @Column(name = "GESCHLECHT")
   private String geschlecht = "";
-  
+
   @OneToMany(mappedBy = "zeltId")
   @Cascade({CascadeType.SAVE_UPDATE})
   private List<Betreuer> betreuerList = new ArrayList<Betreuer>();
@@ -38,16 +35,14 @@ public class Zelt {
   @OneToMany(mappedBy = "zeltId")
   @Cascade({CascadeType.SAVE_UPDATE})
   private List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
-  
-  public Zelt() {
-    
-  }
-  
+
+  public Zelt() {}
+
   public Zelt(String name, String geschlecht) {
     this.name = name;
     this.geschlecht = geschlecht;
   }
-  
+
   public long getZeltId() {
     return zeltId;
   }
@@ -60,34 +55,14 @@ public class Zelt {
     this.name = name;
   }
 
-  public String getNotiz() {
-    return notiz;
-  }
-
-  public void setNotiz(String notiz) {
-    this.notiz = notiz;
-  }
-  
   public List<Betreuer> getBetreuerList() {
     return betreuerList;
   }
-  
+
   public void insterBetreuer(Betreuer b, int i) {
     betreuerList.add(i, b);
   }
 
-  public List<Teilnehmer> getTeilnehmerList() {
-    return teilnehmerList;
-  }
-  
-  public void insterTeilnehmer(Teilnehmer t, int i) {
-    teilnehmerList.add(i, t);
-  }
-  
-  public void removeTeilnehmer(Teilnehmer teilnehmer) {
-    teilnehmerList.remove(teilnehmer);
-  }
-  
   public void removeBetreuer(Betreuer betreuer) {
     betreuerList.remove(betreuer);
   }
@@ -95,9 +70,20 @@ public class Zelt {
   public void removeBetreuerAt(int index0) {
     betreuerList.remove(index0);
   }
-  
+
+  public List<Teilnehmer> getTeilnehmerList() {
+    return teilnehmerList;
+  }
+
+  public void insterTeilnehmer(Teilnehmer t, int i) {
+    teilnehmerList.add(i, t);
+  }
+
+  public void removeTeilnehmer(Teilnehmer teilnehmer) {
+    teilnehmerList.remove(teilnehmer);
+  }
+
   public String getGeschlecht() {
     return geschlecht;
   }
-
 }

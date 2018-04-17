@@ -64,7 +64,6 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
 
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
-//    try {
     Teilnehmer pd = getTeilnehmerAt(rowIndex);
     Object value = null;
     switch (columnIndex) {
@@ -82,9 +81,6 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
       break;
     }
     return value;
-//    } catch (Exception e) {
-//      return "";
-//    }
   }
 
   public boolean removeElement(Object obj) {

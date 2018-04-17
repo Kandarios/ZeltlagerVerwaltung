@@ -18,19 +18,13 @@ public class ImageUtilities {
     int new_width = original_width;
     int new_height = original_height;
 
-    // first check if we need to scale width
     if (original_width > bound_width) {
-      //scale width to fit
       new_width = bound_width;
-      //scale height to maintain aspect ratio
       new_height = (new_width * original_height) / original_width;
     }
 
-    // then check if we need to scale even with the new height
     if (new_height > bound_height) {
-      //scale height to fit instead
       new_height = bound_height;
-      //scale width to maintain aspect ratio
       new_width = (new_height * original_width) / original_height;
     }
 
@@ -52,7 +46,6 @@ public class ImageUtilities {
           (new File("./data/" + imageFile.getName())).toPath(),
           StandardCopyOption.REPLACE_EXISTING);
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,27 +14,23 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EtchedBorder;
 
 import bbv.basics.Teilnehmer;
+import bbv.gui.ResponsiveDialog;
 import helper.ExcelAdapter;
 import helper.TeilnehmerImportTableModel;
 
 
-
-
 @SuppressWarnings("serial")
-public class TeilnehmerDialog extends JDialog {
+public class TeilnehmerDialog extends ResponsiveDialog {
   private JButton button_add;
   private JButton button_cancel;
 
-  private List<ActionListener> listeners = new ArrayList<ActionListener>();
   private JPanel panel;
   private JPanel panel_1;
   private JTable table;
   private JScrollPane scrollPane;
 
-
   public TeilnehmerDialog() {
     setupGUI(); 
-//    informListeners("Aproved");
   }
 
   private void setupGUI() {
@@ -77,19 +71,8 @@ public class TeilnehmerDialog extends JDialog {
     table.setFillsViewportHeight(true);
     table.setShowVerticalLines(false);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    new ExcelAdapter(table);
+    ExcelAdapter copyAdapter = new ExcelAdapter(table);
     scrollPane.setViewportView(table);
-  }
-
-  public void addActionListener(ActionListener listener) {
-    listeners.add(listener);
-  }
-
-  private void informListeners(String reason) {
-    for(ActionListener listener : listeners) {
-      ActionEvent event = new ActionEvent(this, 0, reason);
-      listener.actionPerformed(event);;
-    }
   }
 
   public List<Teilnehmer> getTeilnehmer() {

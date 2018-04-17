@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import bbv.basics.Zelt;
-import database.ZeltlagerDB;
 
 public class ZeltSearchTableModel extends AbstractTableModel {
   
@@ -18,7 +17,6 @@ public class ZeltSearchTableModel extends AbstractTableModel {
   };
 
   private List<Zelt> rowData;
-  private ZeltlagerDB database = ZeltlagerDB.getInstance();
   
   public ZeltSearchTableModel() {
     rowData = new ArrayList<Zelt>();

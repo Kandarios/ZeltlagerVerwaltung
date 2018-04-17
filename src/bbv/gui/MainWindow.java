@@ -38,8 +38,6 @@ public class MainWindow {
    */
   public MainWindow() {
     frame = new JFrame("Betreuer Verwaltung");
-    betreuerTab = new BetreuerTab(frame);
-    zeltTab = new ZeltTab(frame);
     initializeMenuBar();
     initializeTabs();
     this.frame.setVisible(true);
@@ -49,6 +47,8 @@ public class MainWindow {
    * Initialize the contents of the frame.
    */
   private void initializeTabs() {
+    betreuerTab = new BetreuerTab(frame);
+    zeltTab = new ZeltTab();
     frame.setBounds(100, 100, 1200, 900);
     frame.setMinimumSize(new Dimension(900, 500));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
