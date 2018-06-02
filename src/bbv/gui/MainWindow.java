@@ -16,13 +16,17 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import bbv.basics.Teilnehmer;
+import bbv.database.ZeltlagerDB;
 import bbv.gui.betreuer.BetreuerDialog;
 import bbv.gui.betreuer.BetreuerTab;
 import bbv.gui.teilnehmer.TeilnehmerDialog;
+import bbv.gui.teilnehmer.TeilnehmerListWindow;
+import bbv.gui.teilnehmer.TeilnehmerSearchWindow;
 import bbv.gui.zelte.ZeltTab;
-import database.ZeltlagerDB;
-import helper.TeilnehmerSearchTableModel;
-import helper.ZeltSearchTableModel;
+import bbv.helper.TeilnehmerAbgereistTableModel;
+import bbv.helper.TeilnehmerSearchTableModel;
+import bbv.helper.TeilnehmerUnterwegsTableModel;
+import bbv.helper.ZeltSearchTableModel;
 
 public class MainWindow {
 
@@ -37,6 +41,7 @@ public class MainWindow {
    * Create the application.
    */
   public MainWindow() {
+    MySplashScreen screen = new MySplashScreen();
     frame = new JFrame("Betreuer Verwaltung");
     initializeMenuBar();
     initializeTabs();
@@ -95,10 +100,8 @@ public class MainWindow {
     menuItem.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
         BetreuerDialog dialog = new BetreuerDialog(frame);
-        dialog.addActionListener(new ActionListener()
-        {
-          public void actionPerformed(ActionEvent arg0)
-          {
+        dialog.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent arg0) {
             betreuerDB.save(dialog.getBetreuer());
             betreuerTab.betreuerFromMenu();
             zeltTab.updateView();
@@ -107,21 +110,16 @@ public class MainWindow {
       }
     });
     mnHinzufügen.add(menuItem);
-    
-    
-    
+       
     JMenuItem mntmNeuerTeilnehmer = new JMenuItem("Teilnehmer");
     mntmNeuerTeilnehmer.addActionListener(new ActionListener() {      
       public void actionPerformed(ActionEvent e) {
         TeilnehmerDialog dialog = new TeilnehmerDialog();
-        dialog.addActionListener(new ActionListener()
-        {
-          public void actionPerformed(ActionEvent arg0)
-          {
+        dialog.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent arg0) {
             for(Teilnehmer b : dialog.getTeilnehmer()) {
               betreuerDB.save(b);       
             }
-            betreuerTab.betreuerFromMenu();
             zeltTab.updateView();
           }
         });
@@ -138,7 +136,7 @@ public class MainWindow {
     mntmSearchTeilnehmer.setFont(new Font("Segoe UI", Font.PLAIN, 18));
     mntmSearchTeilnehmer.addActionListener(new ActionListener() {      
       public void actionPerformed(ActionEvent e) {
-        SearchWindow dialog = new SearchWindow(new TeilnehmerSearchTableModel(), "Teilnehmer suchen");
+        TeilnehmerSearchWindow dialog = new TeilnehmerSearchWindow(new TeilnehmerSearchTableModel(), "Teilnehmer suchen");
         switchToSearchResult(dialog);
         dialog.setVisible(true);
       }
@@ -149,15 +147,40 @@ public class MainWindow {
     mntmSearchZelt.setFont(new Font("Segoe UI", Font.PLAIN, 18));
     mntmSearchZelt.addActionListener(new ActionListener() {      
       public void actionPerformed(ActionEvent e) {
-        SearchWindow dialog = new SearchWindow(new ZeltSearchTableModel(), "Zelt suchen");
+        TeilnehmerSearchWindow dialog = new TeilnehmerSearchWindow(new ZeltSearchTableModel(), "Zelt suchen");
         switchToSearchResult(dialog);
         dialog.setVisible(true);
       }
     });
     mnSuchen.add(mntmSearchZelt);
+    
+    JMenu mnAuflisten = new JMenu("Auflisten");
+    mnAuflisten.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+    menuBar.add(mnAuflisten);
+    
+    JMenuItem mntmAuflistenUnterwegs = new JMenuItem("Teilnehmer Unterwegs");
+    mntmAuflistenUnterwegs.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+    mntmAuflistenUnterwegs.addActionListener(new ActionListener() {      
+      public void actionPerformed(ActionEvent e) {
+        TeilnehmerListWindow dialog = new TeilnehmerListWindow(new TeilnehmerUnterwegsTableModel(), "Teilmehmer Unterwegs");
+        dialog.setVisible(true);
+      }
+    });
+    mnAuflisten.add(mntmAuflistenUnterwegs);
+    
+    JMenuItem mntmAuflistenAbgereist = new JMenuItem("Teilnehmer Abgereist");
+    mntmAuflistenAbgereist.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+    mntmAuflistenAbgereist.addActionListener(new ActionListener() {      
+      public void actionPerformed(ActionEvent e) {
+        TeilnehmerListWindow dialog = new TeilnehmerListWindow(new TeilnehmerAbgereistTableModel(), "Teilnehmer Abgereist");
+        dialog.setVisible(true);
+      }
+    });
+    mnAuflisten.add(mntmAuflistenAbgereist);
+
   }
 
-  private void switchToSearchResult(SearchWindow dialog) {
+  private void switchToSearchResult(TeilnehmerSearchWindow dialog) {
     dialog.addActionListener(new ActionListener() {
       
       @Override

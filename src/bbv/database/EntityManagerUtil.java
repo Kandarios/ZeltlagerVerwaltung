@@ -1,4 +1,4 @@
-package database;
+package bbv.database;
 
 
 import javax.persistence.EntityManager;

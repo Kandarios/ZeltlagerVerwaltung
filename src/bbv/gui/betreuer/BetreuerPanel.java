@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
 import bbv.basics.Betreuer;
-import helper.ImageUtilities;
+import bbv.helper.ImageUtilities;
 
 public class BetreuerPanel extends AbstractBetreuerPanel {
 

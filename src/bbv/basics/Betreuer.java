@@ -15,15 +15,12 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="BETREUER")
-public class Betreuer {
+public class Betreuer extends AbstractPerson {
   
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "BETREUERID")
   private long betreuerId;
-  
-  @Column(name = "BETREUERNAME")
-  private String name = "";
   
   @Column(name = "BETREUERBILD")
   private String picturePath = ""; 
@@ -32,19 +29,8 @@ public class Betreuer {
   @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
   private List<JournalEntry> jornalEntries = new ArrayList<JournalEntry>();
   
-  @Column(name = "ZELTID", nullable=true)
-  private Long zeltId = null;
-  
-  public Long getZeltId() {
-    return zeltId;
-  }
-
-  public void setZeltId(Long zeltId) {
-    this.zeltId = zeltId;
-  }
-
   public Betreuer(String name, String bild) {
-    this.name = name;
+    super(name);
     this.picturePath = bild;
   }
   
@@ -53,15 +39,7 @@ public class Betreuer {
   public void addPicture(String path) {
     this.picturePath = path;
   }
-  
-  public String getName() {
-    return name;
-  }
-  
-  public void setName(String name) {
-    this.name =  name;
-  }
-  
+    
   public String getPicture() {
     return picturePath;
   }
@@ -75,7 +53,7 @@ public class Betreuer {
   }
   
   public String toString() {
-    return name;
+    return super.getName();
   }
   
   public Long getBetreuerId() {

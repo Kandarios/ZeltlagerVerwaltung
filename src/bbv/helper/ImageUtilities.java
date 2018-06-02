@@ -1,4 +1,4 @@
-package helper;
+package bbv.helper;
 
 import java.awt.Dimension;
 import java.io.File;

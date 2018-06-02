@@ -1,4 +1,4 @@
-package bbv.gui;
+package bbv.gui.teilnehmer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -15,11 +15,12 @@ import javax.swing.table.AbstractTableModel;
 
 import bbv.basics.Teilnehmer;
 import bbv.basics.Zelt;
-import database.ZeltlagerDB;
-import helper.TeilnehmerSearchTableModel;
-import helper.ZeltSearchTableModel;
+import bbv.database.ZeltlagerDB;
+import bbv.gui.ResponsiveDialog;
+import bbv.helper.TeilnehmerSearchTableModel;
+import bbv.helper.ZeltSearchTableModel;
 
-public class SearchWindow extends ResponsiveDialog {
+public class TeilnehmerSearchWindow extends ResponsiveDialog {
   private JTable table;
   private JTextField textField;
   private ZeltlagerDB database = ZeltlagerDB.getInstance();  
@@ -27,7 +28,7 @@ public class SearchWindow extends ResponsiveDialog {
 
   private Zelt z = null;
 
-  public SearchWindow(AbstractTableModel tableModel, String title) {
+  public TeilnehmerSearchWindow(AbstractTableModel tableModel, String title) {
     setMinimumSize(new Dimension(800, 600));
     getContentPane().setLayout(new BorderLayout(0, 0));
     this.model = tableModel;

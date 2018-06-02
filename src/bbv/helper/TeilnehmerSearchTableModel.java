@@ -1,4 +1,4 @@
-package helper;
+package bbv.helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import bbv.basics.Teilnehmer;
-import database.ZeltlagerDB;
+import bbv.database.ZeltlagerDB;
 
 public class TeilnehmerSearchTableModel extends AbstractTableModel {
   

@@ -28,6 +28,9 @@ public class Zelt {
   @Column(name = "GESCHLECHT")
   private String geschlecht = "";
 
+   @Column(name = "ABWESEND")
+   private boolean alleAbwesend = false; 
+  
   @OneToMany(mappedBy = "zeltId")
   @Cascade({CascadeType.SAVE_UPDATE})
   private List<Betreuer> betreuerList = new ArrayList<Betreuer>();
@@ -85,5 +88,13 @@ public class Zelt {
 
   public String getGeschlecht() {
     return geschlecht;
+  }
+
+  public boolean isAlleAbwesend() {
+    return alleAbwesend;
+  }
+
+  public void setAlleAbwesend(boolean alleAbwesend) {
+    this.alleAbwesend = alleAbwesend;
   }
 }

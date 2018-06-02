@@ -15,8 +15,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import bbv.basics.Betreuer;
+import bbv.database.ZeltlagerDB;
 import bbv.gui.ResponsivePanel;
-import database.ZeltlagerDB;
 
 public class BetreuerView extends ResponsivePanel {
   private List<AbstractBetreuerPanel> betreuerPanelList = new ArrayList<AbstractBetreuerPanel>();

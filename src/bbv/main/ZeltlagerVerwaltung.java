@@ -1,4 +1,4 @@
-package main;
+package bbv.main;
 
 import java.awt.EventQueue;
 

@@ -19,7 +19,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import bbv.basics.Betreuer;
 import bbv.gui.ResponsiveDialog;
-import helper.ImageUtilities;
+import bbv.helper.ImageUtilities;
 
 
 public class BetreuerDialog extends ResponsiveDialog {

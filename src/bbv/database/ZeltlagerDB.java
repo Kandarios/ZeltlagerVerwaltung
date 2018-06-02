@@ -1,4 +1,4 @@
-package database;
+package bbv.database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +119,37 @@ public class ZeltlagerDB {
     return teilnehmerList;
   }
 
+  @SuppressWarnings("unchecked")
+  public List<Teilnehmer> getAbgereistTeilnehmerList() {
+    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Teilnehmer where ABREISEDATE is not null");
+      teilnehmerList = query.getResultList();
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      entityManager.getTransaction().rollback();
+    }
+    return teilnehmerList;
+  }
+  
+  @SuppressWarnings("unchecked")
+  public List<Teilnehmer> getUnterwegsTeilnehmerList() {
+    List<Teilnehmer> teilnehmerList = new ArrayList<Teilnehmer>();
+    try {
+      entityManager.getTransaction().begin();
+      Query query = entityManager.createQuery("from Teilnehmer where ABWESENDZEIT is not null");
+      teilnehmerList = query.getResultList();
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      entityManager.getTransaction().rollback();
+    }
+    return teilnehmerList;
+  }
+  
+  
   public void updateTeilnehmerZelt(Long teilnehmerID, Long zeltID) {
     try {
       entityManager.getTransaction().begin();
@@ -137,6 +168,20 @@ public class ZeltlagerDB {
       Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
       teilnehmer.setAbreiseDate(date);
       teilnehmer.setAbgereist(abgereist);
+      entityManager.getTransaction().commit();
+      entityManager.flush();
+    } catch (Exception e) {
+      entityManager.getTransaction().rollback();
+    }
+  }
+  
+  //TODO: Do an update dynamically: get Teilnehmer form DB, override with Teilnehmer, save again.
+  
+  public void updateTeilnehmerUnterwegs(Long teilnehmerID, String time) {
+    try {
+      entityManager.getTransaction().begin();
+      Teilnehmer teilnehmer = (Teilnehmer) entityManager.find(Teilnehmer.class, teilnehmerID);
+      teilnehmer.setAbwesendZeit(time);
       entityManager.getTransaction().commit();
       entityManager.flush();
     } catch (Exception e) {

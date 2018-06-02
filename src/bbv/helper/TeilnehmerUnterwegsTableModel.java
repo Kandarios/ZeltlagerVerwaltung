@@ -1,4 +1,4 @@
-package helper;
+package bbv.helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,20 +7,23 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import bbv.basics.Teilnehmer;
+import bbv.database.ZeltlagerDB;
 
-@SuppressWarnings("serial")
-public class TeilnehmerImportTableModel extends AbstractTableModel {
-
+public class TeilnehmerUnterwegsTableModel extends AbstractTableModel {
+  
   protected static final String[] COLUMN_NAMES = {
       "Name",
       "Geschlecht",
       "Alter",
-      "Wunsch"
+      "Zelt", 
+      "Betreuer",
+      "Unterwegs seit"
   };
 
   private List<Teilnehmer> rowData;
-
-  public TeilnehmerImportTableModel() {
+  private ZeltlagerDB database = ZeltlagerDB.getInstance();
+  
+  public TeilnehmerUnterwegsTableModel() {
     rowData = new ArrayList<Teilnehmer>();
   }
 
@@ -30,12 +33,19 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
 
   public void add(List<Teilnehmer> pd) {
     rowData.addAll(pd);
-    fireTableRowsInserted(0, 1);
+    if(pd.size() != 0) {
+      fireTableRowsInserted(0, 1);      
+    }
   }
   
   public void insert(Teilnehmer t, int rowIndex) {
-    rowData.add(rowIndex, t);
-    fireTableRowsInserted(rowIndex, rowIndex);
+    if(rowIndex == -1) {
+      rowData.add(t);
+      fireTableRowsInserted(rowData.size() -1, rowData.size() -1);
+    } else {
+      rowData.add(rowIndex, t);
+      fireTableRowsInserted(rowIndex, rowIndex);
+    }
   }
 
   @Override
@@ -61,23 +71,42 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
     fireTableRowsDeleted(0, 1);
     return rowData.remove(row);
   }
-
+  
+  
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
     Teilnehmer pd = getTeilnehmerAt(rowIndex);
     Object value = null;
     switch (columnIndex) {
-    case 0:
+    case 0: //Name
       value = pd.getName();
       break;
-    case 1:
+    case 1: //Geschlecht
       value = pd.getGeschlecht();
       break;
-    case 2:
+    case 2: //Alter
       value = pd.getAlter();
       break;
-    case 3:
-      value = pd.getWunsch();
+    case 3: //Zelt
+      if(pd.getZeltId() == null) {
+        value = "-";
+      } else {
+        value = database.getZelt(pd.getZeltId()).getName();
+      }
+      break;
+    case 4: // Betreuer
+      if(pd.getZeltId() == null) {
+        value = "-";
+      } else {
+        value = database.getZelt(pd.getZeltId()).getBetreuerList();
+      }
+      break;
+    case 5: //Abreisedatum
+      if(pd.getAbwesendZeit() == null) {
+        value = "-";
+      } else {
+        value = pd.getAbwesendZeit();
+      }
       break;
     }
     return value;
@@ -90,10 +119,6 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
 
   public void clear() {
     rowData.clear();
-  }
-  
-  public List<Teilnehmer> getAllTeilnehmer() {
-    return rowData;
   }
 
 }

@@ -1,4 +1,4 @@
-package helper;
+package bbv.helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,17 +8,19 @@ import javax.swing.table.AbstractTableModel;
 
 import bbv.basics.Teilnehmer;
 
-public class TeilnehmerTableModel extends AbstractTableModel {
+@SuppressWarnings("serial")
+public class TeilnehmerImportTableModel extends AbstractTableModel {
 
   protected static final String[] COLUMN_NAMES = {
       "Name",
+      "Geschlecht",
       "Alter",
       "Wunsch"
   };
 
   private List<Teilnehmer> rowData;
 
-  public TeilnehmerTableModel() {
+  public TeilnehmerImportTableModel() {
     rowData = new ArrayList<Teilnehmer>();
   }
 
@@ -28,19 +30,12 @@ public class TeilnehmerTableModel extends AbstractTableModel {
 
   public void add(List<Teilnehmer> pd) {
     rowData.addAll(pd);
-    if(pd.size() != 0) {
-      fireTableRowsInserted(0, 1);      
-    }
+    fireTableRowsInserted(0, 1);
   }
   
   public void insert(Teilnehmer t, int rowIndex) {
-    if(rowIndex == -1) {
-      rowData.add(t);
-      fireTableRowsInserted(rowData.size() -1, rowData.size() -1);
-    } else {
-      rowData.add(rowIndex, t);
-      fireTableRowsInserted(rowIndex, rowIndex);
-    }
+    rowData.add(rowIndex, t);
+    fireTableRowsInserted(rowIndex, rowIndex);
   }
 
   @Override
@@ -76,9 +71,12 @@ public class TeilnehmerTableModel extends AbstractTableModel {
       value = pd.getName();
       break;
     case 1:
-      value = pd.getAlter();
+      value = pd.getGeschlecht();
       break;
     case 2:
+      value = pd.getAlter();
+      break;
+    case 3:
       value = pd.getWunsch();
       break;
     }
@@ -92,6 +90,10 @@ public class TeilnehmerTableModel extends AbstractTableModel {
 
   public void clear() {
     rowData.clear();
+  }
+  
+  public List<Teilnehmer> getAllTeilnehmer() {
+    return rowData;
   }
 
 }

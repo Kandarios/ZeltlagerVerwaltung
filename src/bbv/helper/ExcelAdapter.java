@@ -1,4 +1,4 @@
-package helper;
+package bbv.helper;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;

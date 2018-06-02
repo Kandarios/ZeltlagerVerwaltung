@@ -1,4 +1,4 @@
-package helper;
+package bbv.helper;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

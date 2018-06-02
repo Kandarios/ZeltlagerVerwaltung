@@ -15,8 +15,8 @@ import javax.swing.border.EtchedBorder;
 
 import bbv.basics.Teilnehmer;
 import bbv.gui.ResponsiveDialog;
-import helper.ExcelAdapter;
-import helper.TeilnehmerImportTableModel;
+import bbv.helper.ExcelAdapter;
+import bbv.helper.TeilnehmerImportTableModel;
 
 
 @SuppressWarnings("serial")

@@ -31,11 +31,11 @@ import javax.swing.event.TableModelListener;
 import bbv.basics.Betreuer;
 import bbv.basics.Teilnehmer;
 import bbv.basics.Zelt;
-import database.ZeltlagerDB;
-import helper.ListBetreuerTransferHandler;
-import helper.TableSelectionMouseListener;
-import helper.TableTeilnehmerTransferHandler;
-import helper.TeilnehmerTableModel;
+import bbv.database.ZeltlagerDB;
+import bbv.helper.ListBetreuerTransferHandler;
+import bbv.helper.TableSelectionMouseListener;
+import bbv.helper.TableTeilnehmerTransferHandler;
+import bbv.helper.TeilnehmerTableModel;
 
 @SuppressWarnings("serial")
 public class ZeltTab extends JPanel {

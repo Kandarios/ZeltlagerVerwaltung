@@ -37,12 +37,12 @@ import javax.swing.table.TableCellRenderer;
 import bbv.basics.Betreuer;
 import bbv.basics.Teilnehmer;
 import bbv.basics.Zelt;
+import bbv.database.ZeltlagerDB;
 import bbv.gui.ResponsivePanel;
-import database.ZeltlagerDB;
-import helper.ListBetreuerTransferHandler;
-import helper.TableSelectionMouseListener;
-import helper.TableTeilnehmerTransferHandler;
-import helper.TeilnehmerTableModel;
+import bbv.helper.ListBetreuerTransferHandler;
+import bbv.helper.TableSelectionMouseListener;
+import bbv.helper.TableTeilnehmerTransferHandler;
+import bbv.helper.TeilnehmerTableModel;
 
 @SuppressWarnings("serial")
 public class ZeltPanel extends ResponsivePanel {
@@ -103,10 +103,8 @@ public class ZeltPanel extends ResponsivePanel {
 
     tableModel = new TeilnehmerTableModel();
 
-    table_teilnehmer = new JTable(tableModel)
-    {
-      public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
-      {
+    table_teilnehmer = new JTable(tableModel) {
+      public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component c = super.prepareRenderer(renderer, row, column);
         int modelRow = convertRowIndexToModel(row);
         Teilnehmer pd = tableModel.getTeilnehmerAt(modelRow);
@@ -119,6 +117,12 @@ public class ZeltPanel extends ResponsivePanel {
           if (c instanceof JComponent) {
             JComponent jc = (JComponent) c;
             jc.setToolTipText(pd.getName() + " abgereist am " + pd.getAbreiseDate());
+          }
+        } else if (pd.getAbwesendZeit() != null) {
+          c.setForeground(Color.BLUE);
+          if (c instanceof JComponent) {
+            JComponent jc = (JComponent) c;
+            jc.setToolTipText(pd.getName() + " unterwegs seit " + pd.getAbwesendZeit());
           }
         } else {
           if (c instanceof JComponent) {
@@ -159,6 +163,22 @@ public class ZeltPanel extends ResponsivePanel {
     });
     popupMenuAbreisen.add(abreiseItem);
     
+    JMenuItem unterwegsItem = new JMenuItem("Unterwegs");
+    unterwegsItem.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if(table_teilnehmer.getSelectedRow() != -1) {
+          Teilnehmer t = tableModel.getTeilnehmerAt(table_teilnehmer.getSelectedRow());
+          String time = JOptionPane.showInputDialog(null, "Seit wann ist " + t.getName() + " unterwegs?");
+          if(!(time == null || "".equals(time))) {
+            database.updateTeilnehmerUnterwegs(t.getTeilnehmerId(), time);
+          }
+        }
+      }
+    });
+    popupMenuAbreisen.add(unterwegsItem);
+    
     JPopupMenu popupMenuRückgängig = new JPopupMenu();
     JMenuItem rückgängigItem = new JMenuItem("Rückgängig");
     rückgängigItem.addActionListener(new ActionListener() {
@@ -167,7 +187,11 @@ public class ZeltPanel extends ResponsivePanel {
       public void actionPerformed(ActionEvent e) {
         if(table_teilnehmer.getSelectedRow() != -1) {
           Teilnehmer t = tableModel.getTeilnehmerAt(table_teilnehmer.getSelectedRow());
-          database.updateTeilnehmerAbreise(t.getTeilnehmerId(), false, null);
+          if(t.isAbgereist() == true) {
+            database.updateTeilnehmerAbreise(t.getTeilnehmerId(), false, null);
+          } else if (t.getAbwesendZeit() != null) {
+            database.updateTeilnehmerUnterwegs(t.getTeilnehmerId(), null);
+          }
         }
       }
     });
@@ -180,7 +204,7 @@ public class ZeltPanel extends ResponsivePanel {
         if(e.getButton() == MouseEvent.BUTTON3) {
           if(table_teilnehmer.getSelectedRow() != -1) {
             Teilnehmer t = tableModel.getTeilnehmerAt(table_teilnehmer.getSelectedRow());
-            if(t.isAbgereist()) {
+            if(t.isAbgereist() || t.getAbwesendZeit() != null) {
               popupMenuRückgängig.show(table_teilnehmer, e.getX(), e.getY());
             } else {
               popupMenuAbreisen.show(table_teilnehmer, e.getX(), e.getY());

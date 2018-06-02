@@ -22,8 +22,8 @@ import javax.swing.border.EtchedBorder;
 
 import bbv.basics.Betreuer;
 import bbv.basics.JournalEntry;
+import bbv.database.ZeltlagerDB;
 import bbv.gui.ResponsivePanel;
-import database.ZeltlagerDB;
 
 public class JournalView extends ResponsivePanel {
 
