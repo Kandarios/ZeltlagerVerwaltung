@@ -1,4 +1,4 @@
-package bbv.gui.betreuer;
+package bbv.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,15 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import bbv.gui.ResponsivePanel;
+
+public abstract class AbstractGridPanel extends ResponsivePanel {
+  protected JButton btnNewButton = new JButton("");
+  protected JLabel lblNewLabel = new JLabel("");
 
 
-public abstract class AbstractBetreuerPanel extends ResponsivePanel {
-  JButton btnNewButton = new JButton("");
-  JLabel lblNewLabel = new JLabel("");
-
-
-  public AbstractBetreuerPanel() {
+  public AbstractGridPanel() {
     setBorder(new LineBorder(Color.GRAY, 1, true));
     setLayout(new BorderLayout(0, 0));
 

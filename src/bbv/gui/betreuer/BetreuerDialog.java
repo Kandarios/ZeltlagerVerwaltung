@@ -34,7 +34,12 @@ public class BetreuerDialog extends ResponsiveDialog {
   private JButton button_loadImage;
 
   private Dimension pictureDimension = new Dimension(290, 259); 
+  private JTextField textField_telefon;
+  private JLabel lblTelefon;
 
+  /**
+   * @wbp.parser.constructor
+   */
   public BetreuerDialog(JFrame frame) {
     this.parent = frame;
     setupGUI(false); 
@@ -76,59 +81,69 @@ public class BetreuerDialog extends ResponsiveDialog {
     textField_bild = new JTextField();
     textField_bild.setColumns(10);
 
+    textField_telefon = new JTextField();
+    textField_telefon.setColumns(10);
+
+    lblTelefon = new JLabel("Telefon:");
+
     GroupLayout groupLayout = new GroupLayout(getContentPane());
     groupLayout.setHorizontalGroup(
         groupLayout.createParallelGroup(Alignment.TRAILING)
         .addGroup(groupLayout.createSequentialGroup()
-            .addGap(0)
+            .addContainerGap()
             .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
                 .addGroup(groupLayout.createSequentialGroup()
                     .addComponent(button_add)
                     .addPreferredGap(ComponentPlacement.UNRELATED)
-                    .addComponent(button_cancel)
-                    .addGap(23))
+                    .addComponent(button_cancel))
                 .addGroup(groupLayout.createSequentialGroup()
-                    .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                        .addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-                            .addGap(43)
-                            .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                                .addGroup(groupLayout.createSequentialGroup()
-                                    .addComponent(lblBild)
-                                    .addGap(31))
-                                .addGroup(groupLayout.createSequentialGroup()
-                                    .addComponent(lblName)
-                                    .addGap(18)))
-                            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                .addGroup(groupLayout.createSequentialGroup()
-                                    .addComponent(textField_bild, GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
-                                    .addPreferredGap(ComponentPlacement.UNRELATED)
-                                    .addComponent(button_loadImage)
-                                    .addGap(6))
-                                .addComponent(textField_name, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)))
-                        .addGroup(groupLayout.createSequentialGroup()
-                            .addGap(419)
-                            .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)))
-                    .addGap(27))))
+                    .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+                        .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+                            .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(lblBild)
+                                .addGap(31))
+                            .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(lblName)
+                                .addGap(18)))
+                        .addComponent(lblTelefon, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(ComponentPlacement.RELATED)
+                    .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+                        .addComponent(textField_telefon, GroupLayout.PREFERRED_SIZE, 642, GroupLayout.PREFERRED_SIZE)
+                        .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+                            .addComponent(textField_name, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
+                            .addGroup(groupLayout.createSequentialGroup()
+                                .addComponent(textField_bild, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addComponent(button_loadImage))))))
+            .addGap(40))
+        .addGroup(groupLayout.createSequentialGroup()
+            .addGap(393)
+            .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+            .addGap(53))
         );
     groupLayout.setVerticalGroup(
         groupLayout.createParallelGroup(Alignment.TRAILING)
         .addGroup(groupLayout.createSequentialGroup()
-            .addGap(24)
-            .addComponent(lblPreview, GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-            .addPreferredGap(ComponentPlacement.RELATED)
+            .addContainerGap(28, Short.MAX_VALUE)
+            .addComponent(lblPreview, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(ComponentPlacement.UNRELATED)
             .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-                .addComponent(textField_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(lblName))
+                .addComponent(lblName)
+                .addComponent(textField_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(ComponentPlacement.RELATED)
             .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
                 .addComponent(lblBild)
                 .addComponent(textField_bild, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(button_loadImage))
-            .addGap(28)
+            .addPreferredGap(ComponentPlacement.RELATED)
+            .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+                .addComponent(textField_telefon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTelefon))
+            .addGap(11)
             .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
                 .addComponent(button_cancel)
                 .addComponent(button_add))
-            .addGap(14))
+            .addContainerGap())
         );
     getContentPane().setLayout(groupLayout);
   }
@@ -181,6 +196,7 @@ public class BetreuerDialog extends ResponsiveDialog {
 
   public Betreuer getBetreuer() {
     Betreuer betreuer = new Betreuer(textField_name.getText(), textField_bild.getText());
+    betreuer.setTelefon(textField_telefon.getText());
     return betreuer;
   }
 

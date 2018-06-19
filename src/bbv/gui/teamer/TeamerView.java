@@ -1,4 +1,4 @@
-package bbv.gui.betreuer;
+package bbv.gui.teamer;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,41 +14,42 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
-import bbv.basics.Betreuer;
+import bbv.basics.Teamer;
 import bbv.database.ZeltlagerDB;
 import bbv.gui.AbstractGridPanel;
 import bbv.gui.PlusPanel;
 import bbv.gui.ResponsivePanel;
 
-public class BetreuerView extends ResponsivePanel {
-  private List<AbstractGridPanel> betreuerPanelList = new ArrayList<AbstractGridPanel>();
-  private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
-  private JFrame frame;
-  private Long currentBetreuerID;
+public class TeamerView extends ResponsivePanel {
 
-  public BetreuerView(JFrame frame) {
+  private List<AbstractGridPanel> teamerPanelList = new ArrayList<AbstractGridPanel>();
+  private ZeltlagerDB teamerDB = ZeltlagerDB.getInstance();
+  private JFrame frame;
+  private Long currentTeamerID;
+
+  public TeamerView(JFrame frame) {
     this.frame = frame;
     this.setLayout(new GridLayout(0, 3, 0, 0));
-    listExistingBetreuer();
+    listExistingTeamer();
   }
 
-  public void newBetreuer(Betreuer betreuer) {
-    betreuerDB.save(betreuer);
-    listExistingBetreuer();
+  public void newTeamer(Teamer teamer) {
+    teamerDB.save(teamer);
+    listExistingTeamer();
   }
 
-  private void listExistingBetreuer() {
-    List<Betreuer> list = betreuerDB.getBetreuerList();
-    betreuerPanelList.clear();
+  private void listExistingTeamer() {
+    List<Teamer> list = teamerDB.getTeamerList();
+    teamerPanelList.clear();
     PlusPanel plusPanel= new PlusPanel();
     addListener(plusPanel);
-    betreuerPanelList.add(plusPanel);
-    for(Betreuer betreuer : list)  {
-      BetreuerPanel betPanel = new BetreuerPanel(betreuer);
+    teamerPanelList.add(plusPanel);
+    for(Teamer teamer : list)  {
+      TeamerPanel betPanel = new TeamerPanel(teamer);
       addListener(betPanel);
-      betreuerPanelList.add(0, betPanel);
+      teamerPanelList.add(0, betPanel);
     }
-    updateBetreuerView();
+    updateTeamerView();
   }
 
 
@@ -56,24 +57,20 @@ public class BetreuerView extends ResponsivePanel {
     if(panel instanceof PlusPanel) {
       panel.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent arg0) {
-          BetreuerDialog dialog = new BetreuerDialog(frame);
-          dialog.addActionListener(new ActionListener()
-          {
-            public void actionPerformed(ActionEvent arg0)
-            {
-              newBetreuer(dialog.getBetreuer());
+          TeamerDialog dialog = new TeamerDialog(frame);
+          dialog.addActionListener(new ActionListener()  {
+            public void actionPerformed(ActionEvent arg0)  {
+              newTeamer(dialog.getTeamer());
             }
           });
         }
       });
     } else {
-      BetreuerPanel betreuerPanel = (BetreuerPanel) panel;
+      TeamerPanel teamerPanel = (TeamerPanel) panel;
       panel.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent arg0) {
-          Betreuer selectedBetreuer = betreuerPanel.getBetreuer();
-          currentBetreuerID = selectedBetreuer.getBetreuerId();
-          informListeners("showJournal");
-
+          Teamer selectedTeamer = teamerPanel.getTeamer();
+          currentTeamerID = selectedTeamer.getTeamerId();
         }
       });
       panel.addMouseListener(new MouseAdapter() {
@@ -101,13 +98,13 @@ public class BetreuerView extends ResponsivePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-              BetreuerDialog dialog = new BetreuerDialog(frame, betreuerPanel.getBetreuer());
+              TeamerDialog dialog = new TeamerDialog(frame, teamerPanel.getTeamer());
               dialog.addActionListener(new ActionListener()
               {
                 public void actionPerformed(ActionEvent arg0)
                 {
-                  betreuerDB.updateBetreuer(betreuerPanel.getBetreuer().getBetreuerId(), dialog.getBetreuerName(), dialog.getBetreuerPicture());
-                  listExistingBetreuer();
+                  teamerDB.updateTeamer(teamerPanel.getTeamer().getTeamerId(), dialog.getName());
+                  listExistingTeamer();
                 }
               });
             }
@@ -120,8 +117,8 @@ public class BetreuerView extends ResponsivePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-              betreuerDB.delete(betreuerPanel.getBetreuer());
-              listExistingBetreuer();
+              teamerDB.delete(teamerPanel.getTeamer());
+              listExistingTeamer();
             }
           });
           menu.show(e.getComponent(), e.getX(), e.getY());
@@ -130,7 +127,7 @@ public class BetreuerView extends ResponsivePanel {
     }
   }
 
-  public void updateBetreuerView() {
+  public void updateTeamerView() {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         update();
@@ -140,7 +137,7 @@ public class BetreuerView extends ResponsivePanel {
 
   private void update() {
     this.removeAll();
-    for(AbstractGridPanel panel : betreuerPanelList) {
+    for(AbstractGridPanel panel : teamerPanelList) {
       addPanel(panel);   
     }
     this.validate();
@@ -151,11 +148,12 @@ public class BetreuerView extends ResponsivePanel {
     this.add(panel);
   }
 
-  public Long getCurrentBetreuerID() {
-    return currentBetreuerID;
+  public Long getCurrentTeamerID() {
+    return currentTeamerID;
   }
 
-  public void betreuerFromMenu() {
-    listExistingBetreuer();
+  public void teamerFromMenu() {
+    listExistingTeamer();
   }
+  
 }

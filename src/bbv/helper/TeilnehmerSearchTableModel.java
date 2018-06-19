@@ -15,6 +15,11 @@ public class TeilnehmerSearchTableModel extends AbstractTableModel {
       "Name",
       "Geschlecht",
       "Alter",
+      "Besonderheit",
+      "Baden",
+      "Foto",
+      "Unverträglichkeit",
+      "Medikamente",
       "Zelt", 
       "Betreuer",
       "Abgereist", 
@@ -73,7 +78,6 @@ public class TeilnehmerSearchTableModel extends AbstractTableModel {
     return rowData.remove(row);
   }
   
-  
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
     Teilnehmer pd = getTeilnehmerAt(rowIndex);
@@ -88,28 +92,43 @@ public class TeilnehmerSearchTableModel extends AbstractTableModel {
     case 2: //Alter
       value = pd.getAlter();
       break;
-    case 3: //Zelt
+    case 3:
+      value = pd.getBesonderheit();
+      break;
+    case 4:
+      value = pd.getBaden();
+      break;
+    case 5: 
+      value = pd.getFoto();
+      break;
+    case 6:
+      value = pd.getUnverträglichkeit();
+      break;
+    case 7:
+      value = pd.getMedikamente();
+      break;
+    case 8: //Zelt
       if(pd.getZeltId() == null) {
         value = "-";
       } else {
         value = database.getZelt(pd.getZeltId()).getName();
       }
       break;
-    case 4: // Betreuer
+    case 9: // Betreuer
       if(pd.getZeltId() == null) {
         value = "-";
       } else {
         value = database.getZelt(pd.getZeltId()).getBetreuerList();
       }
       break;
-    case 5: //Abgereist?
+    case 10: //Abgereist?
       if(pd.isAbgereist()) {
         value = "Ja";
       } else {
         value = "Nein";
       }
       break;
-    case 6: //Abreisedatum
+    case 11: //Abreisedatum
       if(pd.getAbreiseDate() == null) {
         value = "-";
       } else {

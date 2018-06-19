@@ -1,4 +1,4 @@
-package bbv.gui.betreuer;
+package bbv.gui.teamer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -8,28 +8,28 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 
-import bbv.basics.Betreuer;
+import bbv.basics.Teamer;
 import bbv.gui.AbstractGridPanel;
 import bbv.helper.ImageUtilities;
 
-public class BetreuerPanel extends AbstractGridPanel {
+public class TeamerPanel extends AbstractGridPanel {
 
-  Betreuer betreuer;
-
-  public BetreuerPanel(Betreuer betreuer) {
-    super();
-    this.betreuer = betreuer;
-    lblNewLabel.setText(betreuer.getName());
-    if (betreuer.getPicture().isEmpty() || !ImageUtilities.imageExists(betreuer.getPicture())) {
+  private Teamer teamer;
+  
+  public TeamerPanel(Teamer teamer) {
+    this.teamer = teamer;
+    lblNewLabel.setText(teamer.getName());
+    if (teamer.getPicture().isEmpty() || !ImageUtilities.imageExists(teamer.getPicture())) {
       btnNewButton.setIcon(new ImageIcon(new ImageIcon("./data/default_person.png").getImage().getScaledInstance(220, 220, Image.SCALE_DEFAULT)));
     } else {
-      ImageIcon icon = new ImageIcon(betreuer.getPicture());
+      ImageIcon icon = new ImageIcon(teamer.getPicture());
       Dimension scaledDimension = ImageUtilities.getScaledDimension(new Dimension(icon.getIconWidth(), icon.getIconHeight()),  new Dimension(220, 220));
       btnNewButton.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int) scaledDimension.getWidth(), (int) scaledDimension.getHeight(), Image.SCALE_DEFAULT)));
     }
+    
     add(btnNewButton, BorderLayout.CENTER);
 
-    btnNewButton.addMouseListener(new MouseListener() {
+   btnNewButton.addMouseListener(new MouseListener() {
 
       @Override
       public void mouseReleased(MouseEvent e) {
@@ -56,11 +56,12 @@ public class BetreuerPanel extends AbstractGridPanel {
         dispatchEvent(e);        
         }
     }); 
-
+    
   }
 
-  public Betreuer getBetreuer() {
-    return betreuer;
+  public Teamer getTeamer() {
+    return teamer;
   }
 
+  
 }

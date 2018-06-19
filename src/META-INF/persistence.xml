@@ -9,6 +9,7 @@
 		<class>bbv.basics.JournalEntry</class>
 		<class>bbv.basics.Teilnehmer</class>
 		<class>bbv.basics.Zelt</class>
+		<class>bbv.basics.Teamer</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 
@@ -18,12 +19,12 @@
 			<property name="hibernate.connection.password" value="" />
 			<property name="hibernate.connection.user" value="" />
 			<property name="hibernate.connection.url" value="jdbc:h2:./data/betreuerDB" />
-			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.connection.autocommit" value="true" />
 
 
 			<!-- create https://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html -->
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
 	</persistence-unit>
 </persistence>

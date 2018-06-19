@@ -37,6 +37,9 @@ public class Teilnehmer extends AbstractPerson {
   @Column(name = "ALTER")
   private int alter = 0;
 
+  @Column(name = "MEDIKAMENTE")
+  private String medikamente = "";  
+  
   public Teilnehmer() {}
   
   public Teilnehmer(String name, String geschlecht, int alter, String wunsch) {
@@ -104,6 +107,22 @@ public class Teilnehmer extends AbstractPerson {
 
   public void setTeilnehmerId(long teilnehmerId) {
     this.teilnehmerId = teilnehmerId;
+  }
+
+  public String getBaden() {
+    return baden;
+  }
+
+  public void setBaden(String baden) {
+    this.baden = baden;
+  }
+
+  public String getMedikamente() {
+    return medikamente;
+  }
+
+  public void setMedikamente(String medikamente) {
+    this.medikamente = medikamente;
   }
   
 }

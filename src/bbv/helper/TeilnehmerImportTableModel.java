@@ -15,7 +15,12 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
       "Name",
       "Geschlecht",
       "Alter",
-      "Wunsch"
+      "Wunsch",
+      "Besonderheit",
+      "Baden",
+      "Foto",
+      "Unverträglichkeit",
+      "Medikamente"
   };
 
   private List<Teilnehmer> rowData;
@@ -62,6 +67,7 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
     return rowData.remove(row);
   }
 
+
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
     Teilnehmer pd = getTeilnehmerAt(rowIndex);
@@ -78,6 +84,21 @@ public class TeilnehmerImportTableModel extends AbstractTableModel {
       break;
     case 3:
       value = pd.getWunsch();
+      break;
+    case 4:
+      value = pd.getBesonderheit();
+      break;
+    case 5:
+      value = pd.getBaden();
+      break;
+    case 6:
+      value = pd.getFoto();
+      break;
+    case 7:
+      value = pd.getUnverträglichkeit();
+      break;
+    case 8:
+      value = pd.getMedikamente();
       break;
     }
     return value;

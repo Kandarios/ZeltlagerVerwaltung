@@ -17,11 +17,14 @@ import javax.swing.event.ChangeListener;
 
 import bbv.basics.Teilnehmer;
 import bbv.database.ZeltlagerDB;
+import bbv.gui.abwesenheit.AbwesenheitsTab;
 import bbv.gui.betreuer.BetreuerDialog;
 import bbv.gui.betreuer.BetreuerTab;
+import bbv.gui.teamer.TeamerTab;
 import bbv.gui.teilnehmer.TeilnehmerDialog;
 import bbv.gui.teilnehmer.TeilnehmerListWindow;
 import bbv.gui.teilnehmer.TeilnehmerSearchWindow;
+import bbv.gui.uebersicht.UebersichtTab;
 import bbv.gui.zelte.ZeltTab;
 import bbv.helper.TeilnehmerAbgereistTableModel;
 import bbv.helper.TeilnehmerSearchTableModel;
@@ -32,7 +35,10 @@ public class MainWindow {
 
   private JFrame frame;
   private BetreuerTab betreuerTab;
+  private TeamerTab teamerTab;
   private ZeltTab zeltTab;
+  private AbwesenheitsTab abwesenheitsTab;
+  private UebersichtTab uebersichtsTab;
   private ZeltlagerDB betreuerDB = ZeltlagerDB.getInstance();
   private JTabbedPane mainTabs = new JTabbedPane();
 
@@ -54,6 +60,9 @@ public class MainWindow {
   private void initializeTabs() {
     betreuerTab = new BetreuerTab(frame);
     zeltTab = new ZeltTab();
+    teamerTab = new TeamerTab(frame);
+    abwesenheitsTab = new AbwesenheitsTab();
+    uebersichtsTab = new UebersichtTab();
     frame.setBounds(100, 100, 1200, 900);
     frame.setMinimumSize(new Dimension(900, 500));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +79,10 @@ public class MainWindow {
     });
   
     mainTabs.addTab("Betreuer", betreuerTab);
+    mainTabs.addTab("Teamer", teamerTab);
     mainTabs.addTab("Zeltplan", zeltTab); 
+    mainTabs.addTab("Abwesenheit", abwesenheitsTab);
+    mainTabs.addTab("Übersicht", uebersichtsTab);
   }
 
   private void initializeMenuBar() {

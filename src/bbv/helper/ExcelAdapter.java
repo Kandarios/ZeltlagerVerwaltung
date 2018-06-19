@@ -53,9 +53,15 @@ public class ExcelAdapter implements ActionListener {
           String geschlecht = "";
           String alter = "";
           String wunsch = "";
+          String besonderheit = ""; 
+          String baden = "";
+          String foto = ""; 
+          String unvertraeglichkeit = "";
+          String medikamente = ""; 
           for(int j = 0; valueSplitter.hasMoreTokens(); j++) {
+            System.out.println(j);
             value = (String)valueSplitter.nextToken();
-            if(value ==  null) {
+            if(value ==  null || value == "-") {
               value = "";
             }
             switch(j) {
@@ -71,9 +77,31 @@ public class ExcelAdapter implements ActionListener {
             case 3:
               wunsch = value;
               break;
+            case 4:
+              besonderheit = value;
+              break;
+            case 5:
+              baden = value;
+              break;
+            case 6:
+              foto = value;
+              break;
+            case 7:
+              unvertraeglichkeit = value;
+              break;
+            case 8:
+              medikamente = value;
+              break;
             }
           }
-          teilnehmerList.add(new Teilnehmer(name, geschlecht, Integer.parseInt(alter), wunsch));
+          Teilnehmer t = new Teilnehmer(name, geschlecht, Integer.parseInt(alter), wunsch);
+          t.setBesonderheit(besonderheit);
+          t.setBaden(baden);
+          t.setFoto(foto);
+          t.setUnverträglichkeit(unvertraeglichkeit);
+          t.setMedikamente(medikamente);
+          teilnehmerList.add(t);
+          
         }
         TeilnehmerImportTableModel model = (TeilnehmerImportTableModel)jTable1.getModel();
         model.add(teilnehmerList);

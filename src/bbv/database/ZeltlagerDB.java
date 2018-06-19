@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import bbv.basics.Betreuer;
+import bbv.basics.Teamer;
 import bbv.basics.Teilnehmer;
 import bbv.basics.Zelt;
 
@@ -249,10 +250,28 @@ public class ZeltlagerDB {
       Query query = entityManager.createQuery("from Zelt where NAME LIKE '%" + name + "%'");
       teilnehmerList = query.getResultList();
       entityManager.getTransaction().commit();
-      entityManager.flush();
+      entityManager.flush(); 
+    } catch (Exception e) { 
+      entityManager.getTransaction().rollback() ;
+    }
+    return teilnehmerList;
+  }
+ 
+  public List<Teamer> getTeamerList() {
+    List<Teamer> betreuerList = new ArrayList<Teamer>();
+    try {
+      entityManager.getTransaction().begin();
+      betreuerList = entityManager.createQuery("from Teamer").getResultList();
+      entityManager.getTransaction().commit();
+      return betreuerList;
     } catch (Exception e) {
       entityManager.getTransaction().rollback();
     }
-    return teilnehmerList;
+    return betreuerList;
+  }
+
+  public void updateTeamer(long teamerId, String name) {
+    // TODO Auto-generated method stub
+    System.out.println(teamerId + " " + name);
   }
 }
